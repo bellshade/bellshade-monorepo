@@ -47,5 +47,4 @@ app.get("/", (req, res) => {
     .catch((error) => res.status(error.status).json(error.response.data));
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+module.exports = app;
