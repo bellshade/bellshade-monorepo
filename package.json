@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "engines": {
+  	"node": '14.x'
+  },
   "scripts": {
-    "start": "cross-env NODE_ENV=production node server.js",
+    "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "keywords": [],
@@ -18,7 +21,6 @@
     "node-cache": "^5.1.2"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "nodemon": "^2.0.12"
   }
