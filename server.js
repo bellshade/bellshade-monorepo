@@ -10,7 +10,16 @@ const app = express();
 const bellshadeCache = new NodeCache();
 
 app.use(compression());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://bellshade.github.io",
+      "http://localhost:3000",
+      new RegExp("https://(n*).github.io"),
+    ],
+    method: "GET",
+  })
+);
 
 app.get("/", (req, res) => {
   const dataCache = bellshadeCache.get(GITHUB_CACHE_KEY);
