@@ -47,4 +47,6 @@ app.get("/", (req, res) => {
     .catch((error) => res.status(error.status).json(error.response.data));
 });
 
+app.listen(80);
+
 module.exports = app;
