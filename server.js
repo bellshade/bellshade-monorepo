@@ -3,8 +3,8 @@ const compression = require("compression");
 const NodeCache = require("node-cache");
 const cors = require("cors");
 
-const { getMembers, getUser } = require("./utils/github.api");
-const { GITHUB_CACHE_KEY } = require("./config/constant");
+const { getAllMembersInfo } = require("./utils/github.api");
+const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("./config/constant");
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -27,25 +27,18 @@ app.get("/", (req, res) => {
 
   if (dataCache) return res.json(dataCache);
 
-  getMembers()
+  getAllMembersInfo()
     .then((data) => {
-      const refetch = data.map((users) => getUser(users.login));
-
-      return Promise.all(refetch);
-    })
-    .then((members) =>
-      members.map((member) => ({
-        login: member.login,
-        avatar_url: member.avatar_url,
-        html_url: member.html_url,
-        name: member.name,
-      }))
-    )
-    .then((data) => {
-      bellshadeCache.set(GITHUB_CACHE_KEY, data, 3600 * 5);
+      bellshadeCache.set(GITHUB_CACHE_KEY, data, EXPIRY_TTL);
       res.json(data);
     })
     .catch((error) => res.status(error.status).json(error.response.data));
 });
 
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
+
+  getAllMembersInfo().then((data) =>
+    bellshadeCache.set(GITHUB_CACHE_KEY, data, EXPIRY_TTL)
+  );
+});
