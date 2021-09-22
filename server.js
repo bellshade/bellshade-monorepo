@@ -10,17 +10,33 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 const bellshadeCache = new NodeCache();
 
+const allowList = [
+  "https://bellshade.github.io",
+  "http://localhost:3000",
+  new RegExp("https://(.*?).github.io"),
+];
+const corsOptions = {
+  origin: (origin, callback) => {
+    const isPermitted = allowList.some((e) => {
+      const tester =
+        e instanceof RegExp ? (o) => e.test(o) : (o) => e.indexOf(o) !== -1;
+
+      return origin !== undefined ? tester(origin) : true;
+    });
+
+    console.log(isPermitted);
+
+    if (isPermitted) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  method: "GET",
+};
+
 app.use(compression());
-app.use(
-  cors({
-    origin: [
-      "https://bellshade.github.io",
-      "http://localhost:3000",
-      new RegExp("https://(n*).github.io"),
-    ],
-    method: "GET",
-  })
-);
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
   const dataCache = bellshadeCache.get(GITHUB_CACHE_KEY);
