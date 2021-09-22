@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const { getMembers, getUser } = require("./utils/github.api");
 const { GITHUB_CACHE_KEY } = require("./config/constant");
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 const bellshadeCache = new NodeCache();
@@ -47,6 +48,4 @@ app.get("/", (req, res) => {
     .catch((error) => res.status(error.status).json(error.response.data));
 });
 
-app.listen(80);
-
-module.exports = app;
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
