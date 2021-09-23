@@ -3,4 +3,5 @@ const EXPIRY_TTL = 3600 * 5;
 
 module.exports = {
   GITHUB_CACHE_KEY,
+  EXPIRY_TTL,
 };
