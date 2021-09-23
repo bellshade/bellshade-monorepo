@@ -24,8 +24,6 @@ const corsOptions = {
       return origin !== undefined ? tester(origin) : true;
     });
 
-    console.log(isPermitted);
-
     if (isPermitted) {
       callback(null, true);
     } else {
