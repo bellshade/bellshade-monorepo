@@ -5,33 +5,12 @@ const cors = require("cors");
 
 const { getAllMembersInfo } = require("./utils/github.api");
 const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("./config/constant");
+const corsOptions = require("./config/cors");
+
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 const bellshadeCache = new NodeCache();
-
-const allowList = [
-  "https://bellshade.github.io",
-  "http://localhost:3000",
-  new RegExp("https://(.*?).github.io"),
-];
-const corsOptions = {
-  origin: (origin, callback) => {
-    const isPermitted = allowList.some((e) => {
-      const tester =
-        e instanceof RegExp ? (o) => e.test(o) : (o) => e.indexOf(o) !== -1;
-
-      return origin !== undefined ? tester(origin) : true;
-    });
-
-    if (isPermitted) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  method: "GET",
-};
 
 app.use(compression());
 app.use(cors(corsOptions));
