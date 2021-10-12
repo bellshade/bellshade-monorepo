@@ -34,18 +34,16 @@ const githubApiWrapper = (auth) => {
 
         return Promise.all(remap.map(getPR));
       })
-      .then((
-        PR // filter ulang data yang dah diambil
-      ) =>
-        PR.filter(({ merged }) => merged === true).map((data) => {
-          return {
-            html_url: data.html_url,
+      .then((PR) =>
+        PR.filter(({ merged }) => merged === true) // filter PR yang udah di merge
+          .filter(({ user }) => user.login === username) // filter PR yang usernamenya sama dengan param
+          .map((data) => ({
             number: data.number,
             title: data.title,
+            html_url: data.html_url,
             created_at: data.created_at,
             merged_at: data.merged_at,
-          };
-        })
+          }))
       )
       .then((PR) =>
         PR.filter(
