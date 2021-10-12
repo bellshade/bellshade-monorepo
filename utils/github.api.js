@@ -1,24 +1,15 @@
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 const { Octokit } = require("@octokit/rest");
+const miniUtils = require("./miniUtils");
 
 const githubApiWrapper = (auth) => {
   const octokit = new Octokit({ auth });
-
-  const getMembers = () =>
-    octokit.orgs
-      .listPublicMembers({ org: "bellshade" })
-      .then(({ data }) => data);
-  const getUser = (username) =>
-    octokit.users.getByUsername({ username }).then(({ data }) => data);
+  const { getMembers, getUser, getPublicEvents, getPR } = miniUtils(octokit);
 
   const getAllMembersInfo = () =>
     getMembers()
-      .then((data) => {
-        const refetch = data.map((users) => getUser(users.login));
-
-        return Promise.all(refetch);
-      })
+      .then((data) => Promise.all(data.map((users) => getUser(users.login))))
       .then((members) =>
         members.map((member) => ({
           login: member.login,
@@ -28,10 +19,41 @@ const githubApiWrapper = (auth) => {
         }))
       );
 
+  const getUserOrgValidContribution = (username) =>
+    getPublicEvents(username)
+      .then((events) => {
+        const remap = events
+          .filter(({ type }) => type === "PullRequestEvent")
+          .filter(({ repo }) => repo.name.includes("bellshade"))
+          .map((data) => ({
+            owner: "bellshade",
+            repo: data.repo.name.split("/")[1],
+            pull_number: data.payload.pull_request.number,
+          }));
+
+        return Promise.all(remap.map(getPR));
+      })
+      .then((PR) =>
+        PR.filter(({ merged }) => merged === true).map((data) => {
+          return {
+            html_url: data.html_url,
+            number: data.number,
+            title: data.title,
+            created_at: data.created_at,
+            merged_at: data.merged_at,
+          };
+        })
+      )
+      .then((pull_requests) =>
+        getUser(username).then(({ login, avatar_url, html_url, name }) => ({
+          url: { avatar_url, html_url, name: name ? name : login },
+          pull_requests,
+        }))
+      );
+
   return {
-    getMembers,
-    getUser,
     getAllMembersInfo,
+    getUserOrgValidContribution,
   };
 };
 
