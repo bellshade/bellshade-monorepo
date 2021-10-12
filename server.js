@@ -9,6 +9,9 @@ const {
   getUserOrgValidContribution,
 } = require("./utils/github.api");
 
+const commonErrorHandler = (res) => (error) =>
+  res.status(error.status).json(error.response.data);
+
 const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("./config/constant");
 const corsOptions = require("./config/cors");
 
@@ -30,7 +33,7 @@ app.get("/", (req, res) => {
       bellshadeCache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members);
       res.json(data);
     })
-    .catch((error) => res.status(error.status).json(error.response.data));
+    .catch(commonErrorHandler(res));
 });
 
 app.get("/pr_check/:username", (req, res) => {
@@ -46,10 +49,12 @@ app.get("/pr_check/:username", (req, res) => {
   const dataCache = bellshadeCache.get(cacheKey);
   if (dataCache) return res.json(dataCache);
 
-  getUserOrgValidContribution(username).then((data) => {
-    bellshadeCache.set(cacheKey, data, EXPIRY_TTL.prInfo);
-    res.json(data);
-  });
+  getUserOrgValidContribution(username)
+    .then((data) => {
+      bellshadeCache.set(cacheKey, data, EXPIRY_TTL.prInfo);
+      res.json(data);
+    })
+    .catch(commonErrorHandler(res));
 });
 
 app.listen(PORT, () => {

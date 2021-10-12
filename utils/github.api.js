@@ -9,7 +9,7 @@ const githubApiWrapper = (auth) => {
 
   const getAllMembersInfo = () =>
     getMembers()
-      .then((data) => Promise.all(data.map((users) => getUser(users.login))))
+      .then((data) => Promise.all(data.map((users) => getUser(users.login)))) // re-get member data
       .then((members) =>
         members.map((member) => ({
           login: member.login,
@@ -23,9 +23,10 @@ const githubApiWrapper = (auth) => {
     getPublicEvents(username)
       .then((events) => {
         const remap = events
-          .filter(({ type }) => type === "PullRequestEvent")
-          .filter(({ repo }) => repo.name.includes("bellshade"))
+          .filter(({ type }) => type === "PullRequestEvent") // Filter pull request event only
+          .filter(({ repo }) => repo.name.includes("bellshade")) // Filter repo bellshade only
           .map((data) => ({
+            // remap data
             owner: "bellshade",
             repo: data.repo.name.split("/")[1],
             pull_number: data.payload.pull_request.number,
@@ -33,7 +34,9 @@ const githubApiWrapper = (auth) => {
 
         return Promise.all(remap.map(getPR));
       })
-      .then((PR) =>
+      .then((
+        PR // filter ulang data yang dah diambil
+      ) =>
         PR.filter(({ merged }) => merged === true).map((data) => {
           return {
             html_url: data.html_url,
@@ -43,6 +46,11 @@ const githubApiWrapper = (auth) => {
             merged_at: data.merged_at,
           };
         })
+      )
+      .then((PR) =>
+        PR.filter(
+          (v, i, a) => a.findIndex((t) => t.html_url === v.html_url) === i // remove duplicate
+        )
       )
       .then((pull_requests) =>
         getUser(username).then(({ login, avatar_url, html_url, name }) => ({
