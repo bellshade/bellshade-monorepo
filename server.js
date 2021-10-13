@@ -10,7 +10,11 @@ const {
 } = require("./utils/github.api");
 
 const commonErrorHandler = (res) => (error) =>
-  res.status(error.status).json(error.response.data);
+  res
+    .status(!error ? 500 : error.status)
+    .json(
+      !error ? { error: true, message: "Unknown Error" } : error.response.data
+    );
 
 const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("./config/constant");
 const corsOptions = require("./config/cors");
