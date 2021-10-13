@@ -5,7 +5,7 @@ const miniUtils = require("./miniUtils");
 
 const githubApiWrapper = (auth) => {
   const octokit = new Octokit({ auth });
-  const { getMembers, getUser, getPublicEvents, getPR } = miniUtils(octokit);
+  const { getMembers, getUser, searchPRs, getPR } = miniUtils(octokit);
 
   const getAllMembersInfo = () =>
     getMembers()
@@ -20,40 +20,34 @@ const githubApiWrapper = (auth) => {
       );
 
   const getUserOrgValidContribution = (username) =>
-    getPublicEvents(username)
-      .then((events) => {
-        const remap = events
-          .filter(({ type }) => type === "PullRequestEvent") // Filter pull request event only
-          .filter(({ repo }) => repo.name.includes("bellshade")) // Filter repo bellshade only
-          .map((data) => ({
-            // remap data
-            owner: "bellshade",
-            repo: data.repo.name.split("/")[1],
-            pull_number: data.payload.pull_request.number,
-          }));
+    searchPRs(username) // Search All merged PR entire bellshade github org
+      .then((PRs) =>
+        Promise.all(
+          PRs.map((data) => {
+            const splitted = data.repository_url.split("/");
 
-        return Promise.all(remap.map(getPR));
-      })
-      .then((PR) =>
-        PR.filter(({ merged }) => merged === true) // filter PR yang udah di merge
-          .filter(({ user }) => user.login === username) // filter PR yang usernamenya sama dengan param
-          .map((data) => ({
-            number: data.number,
-            title: data.title,
-            html_url: data.html_url,
-            created_at: data.created_at,
-            merged_at: data.merged_at,
-          }))
-      )
-      .then((PR) =>
-        PR.filter(
-          (v, i, a) => a.findIndex((t) => t.html_url === v.html_url) === i // remove duplicate
+            return getPR({
+              repo: splitted[splitted.length - 1],
+              pull_number: data.number,
+              owner: "bellshade",
+            }); // Get PR info
+          })
         )
+      )
+      .then((PRs) =>
+        PRs.map((pr) => ({
+          title: pr.title,
+          html_url: pr.html_url,
+          number: pr.number,
+          created_at: pr.created_at,
+          merged_at: pr.merged_at,
+        }))
       )
       .then((pull_requests) =>
         getUser(username).then(({ login, avatar_url, html_url, name }) => ({
-          url: { avatar_url, html_url, name: name ? name : login },
-          pull_requests,
+          url: { name: name ? name : login, html_url, avatar_url },
+          pull_requests: pull_requests.length > 0 ? pull_requests : null,
+          prs_count: pull_requests.length,
         }))
       );
 

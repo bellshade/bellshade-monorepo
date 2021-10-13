@@ -1,3 +1,6 @@
+const queryBuilder = (username) =>
+  `+type:pr+is:public+is:merged+draft:false+author:${username}+org:bellshade`;
+
 module.exports = (octokit) => {
   const getMembers = () =>
     octokit.orgs
@@ -24,5 +27,13 @@ module.exports = (octokit) => {
       })
       .then(({ data }) => data);
 
-  return { getMembers, getUser, getPublicEvents, getPR };
+  const searchPRs = (username) =>
+    octokit.search
+      .issuesAndPullRequests({
+        q: queryBuilder(username),
+        per_page: 100,
+      })
+      .then(({ data }) => data.items);
+
+  return { getMembers, getUser, searchPRs, getPR };
 };
