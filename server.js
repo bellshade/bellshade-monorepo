@@ -4,7 +4,11 @@ const NodeCache = require("node-cache");
 const express = require("express");
 const cors = require("cors");
 
-const { getAllMembersInfo, getUserOrgValidContribution } = require("./github");
+const {
+  getAllMembersInfo,
+  getUserOrgValidContribution,
+  getOrgContributors,
+} = require("./github");
 
 const commonErrorHandler = (res) => (error) =>
   res
@@ -37,6 +41,22 @@ app.get("/", (req, res) => {
     .catch(commonErrorHandler(res));
 });
 
+app.get("/contributors", (req, res) => {
+  const dataCache = bellshadeCache.get(GITHUB_CACHE_KEY.contributors);
+  if (dataCache) return res.json(dataCache);
+
+  getOrgContributors()
+    .then((data) => {
+      bellshadeCache.set(
+        GITHUB_CACHE_KEY.contributors,
+        data,
+        EXPIRY_TTL.contributors
+      );
+      res.json(data);
+    })
+    .catch(commonErrorHandler(res));
+});
+
 app.get("/pr_check/:username", (req, res) => {
   const username = req.params.username;
   const cacheKey = GITHUB_CACHE_KEY.prInfo(username);
@@ -61,7 +81,19 @@ app.get("/pr_check/:username", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 
-  getAllMembersInfo().then((data) =>
-    bellshadeCache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members)
-  );
+  const init = async () =>
+    Promise.all([
+      getAllMembersInfo().then((data) =>
+        bellshadeCache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members)
+      ),
+      getOrgContributors().then((data) =>
+        bellshadeCache.set(
+          GITHUB_CACHE_KEY.contributors,
+          data,
+          EXPIRY_TTL.contributors
+        )
+      ),
+    ]).catch(console.error);
+
+  init();
 });

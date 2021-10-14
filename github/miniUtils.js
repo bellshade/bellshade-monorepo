@@ -36,11 +36,30 @@ const searchPRs = (query) =>
     }
   });
 
+const getRepoContributors = (repo) =>
+  octokit.repos
+    .listContributors({
+      owner: "bellshade",
+      repo,
+      per_page: 100,
+    })
+    .then(({ data }) => data);
+
 const getOrgRepos = () =>
   octokit.repos
     .listForOrg({
       org: "bellshade",
+      sort: "created",
+      direction: "asc",
+      type: "public",
     })
-    .then(({ data }) => data.items);
+    .then(({ data }) => data);
 
-module.exports = { getMembers, getUser, searchPRs, getPR, getOrgRepos };
+module.exports = {
+  getMembers,
+  getUser,
+  searchPRs,
+  getPR,
+  getOrgRepos,
+  getRepoContributors,
+};
