@@ -4,10 +4,7 @@ const NodeCache = require("node-cache");
 const express = require("express");
 const cors = require("cors");
 
-const {
-  getAllMembersInfo,
-  getUserOrgValidContribution,
-} = require("./utils/github.api");
+const { getAllMembersInfo, getUserOrgValidContribution } = require("./github");
 
 const commonErrorHandler = (res) => (error) =>
   res
