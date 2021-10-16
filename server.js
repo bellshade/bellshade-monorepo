@@ -7,17 +7,15 @@ const cors = require("cors");
 const {
   getAllMembersInfo,
   getUserOrgValidContribution,
-} = require("./utils/github.api");
+  getOrgContributors,
+} = require("./github");
 
-const commonErrorHandler = (res) => (error) =>
-  res
-    .status(!error ? 500 : error.status)
-    .json(
-      !error ? { error: true, message: "Unknown Error" } : error.response.data
-    );
+const { leaderboard } = require("./routes");
 
 const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("./config/constant");
+const commonErrorHandler = require("./common/errorHandler");
 const corsOptions = require("./config/cors");
+const init = require("./task/init");
 
 const PORT = process.env.PORT || 3000;
 
@@ -39,6 +37,24 @@ app.get("/", (req, res) => {
     })
     .catch(commonErrorHandler(res));
 });
+
+app.get("/contributors", (req, res) => {
+  const dataCache = bellshadeCache.get(GITHUB_CACHE_KEY.contributors);
+  if (dataCache) return res.json(dataCache);
+
+  getOrgContributors()
+    .then((data) => {
+      bellshadeCache.set(
+        GITHUB_CACHE_KEY.contributors,
+        data,
+        EXPIRY_TTL.contributors
+      );
+      res.json(data);
+    })
+    .catch(commonErrorHandler(res));
+});
+
+app.use("/leaderboard", leaderboard(bellshadeCache));
 
 app.get("/pr_check/:username", (req, res) => {
   const username = req.params.username;
@@ -64,7 +80,5 @@ app.get("/pr_check/:username", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 
-  getAllMembersInfo().then((data) =>
-    bellshadeCache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members)
-  );
+  init(bellshadeCache);
 });
