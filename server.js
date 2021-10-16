@@ -10,15 +10,12 @@ const {
   getOrgContributors,
 } = require("./github");
 
-const commonErrorHandler = (res) => (error) =>
-  res
-    .status(!error ? 500 : error.status)
-    .json(
-      !error ? { error: true, message: "Unknown Error" } : error.response.data
-    );
+const { leaderboard } = require("./routes");
 
 const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("./config/constant");
+const commonErrorHandler = require("./common/errorHandler");
 const corsOptions = require("./config/cors");
+const init = require("./task/init");
 
 const PORT = process.env.PORT || 3000;
 
@@ -57,6 +54,8 @@ app.get("/contributors", (req, res) => {
     .catch(commonErrorHandler(res));
 });
 
+app.use("/leaderboard", leaderboard(bellshadeCache));
+
 app.get("/pr_check/:username", (req, res) => {
   const username = req.params.username;
   const cacheKey = GITHUB_CACHE_KEY.prInfo(username);
@@ -81,19 +80,5 @@ app.get("/pr_check/:username", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 
-  const init = async () =>
-    Promise.all([
-      getAllMembersInfo().then((data) =>
-        bellshadeCache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members)
-      ),
-      getOrgContributors().then((data) =>
-        bellshadeCache.set(
-          GITHUB_CACHE_KEY.contributors,
-          data,
-          EXPIRY_TTL.contributors
-        )
-      ),
-    ]).catch(console.error);
-
-  init();
+  // init(bellshadeCache);
 });

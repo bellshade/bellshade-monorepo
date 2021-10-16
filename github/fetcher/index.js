@@ -1,4 +1,4 @@
-const octokit = require("../helpers/octokit");
+const octokit = require("../../helpers/octokit");
 
 const hasNextPage = require("./hasNextPage");
 const getNextPage = require("./getNextPage");
@@ -8,15 +8,6 @@ const getMembers = () =>
 
 const getUser = (username) =>
   octokit.users.getByUsername({ username }).then(({ data }) => data);
-
-const getPR = ({ owner, repo, pull_number }) =>
-  octokit.rest.pulls
-    .get({
-      owner,
-      repo,
-      pull_number,
-    })
-    .then(({ data }) => data);
 
 const searchPRs = (query) =>
   new Promise(async (resolve) => {
@@ -59,7 +50,6 @@ module.exports = {
   getMembers,
   getUser,
   searchPRs,
-  getPR,
   getOrgRepos,
   getRepoContributors,
 };

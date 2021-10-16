@@ -1,4 +1,4 @@
-const octokit = require("../helpers/octokit");
+const octokit = require("../../helpers/octokit");
 
 const getPageLinks = require("./getPageLinks");
 const hasNextPage = require("./hasNextPage");
