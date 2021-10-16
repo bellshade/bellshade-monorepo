@@ -3,6 +3,7 @@ const localhostOnly = (...ports) =>
 
 const allowList = [
   "https://bellshade.org",
+  new RegExp("https://(.*?).bellshade.org"),
   "https://bellshade.github.io",
   ...localhostOnly(3000, 3001, 5000),
   new RegExp("https://(.*?).github.io"),
