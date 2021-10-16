@@ -2,9 +2,9 @@ const { getUser, searchPRs } = require("../fetcher");
 const getOrgContributors = require("./getOrgContributors");
 const { leaderboardQuery } = require("../config").query;
 
-const fs = require("fs");
+const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../config/constant");
 
-const getLeaderboard = {
+const getLeaderboard = (cache = null) => ({
   PR: () =>
     searchPRs(leaderboardQuery)
       .then((PRs) => {
@@ -40,7 +40,15 @@ const getLeaderboard = {
         )
       ),
   CONTRIB: () =>
-    getOrgContributors().then((data) => {
+    new Promise(async (resolve) => {
+      // load existing cache, if exist
+      const dataCache = cache ? cache.get(GITHUB_CACHE_KEY.contributors) : null;
+      const data = dataCache ? dataCache : await getOrgContributors();
+
+      // caching contributors data when it's not available
+      if (cache && !dataCache && !cache.get(GITHUB_CACHE_KEY.contributors))
+        cache.set(GITHUB_CACHE_KEY.contributors, data, EXPIRY_TTL.contributors);
+
       const remapNewData = data
         .map(({ repo, contributors }) =>
           contributors.map((contributor) => ({ ...contributor, repo }))
@@ -68,12 +76,12 @@ const getLeaderboard = {
         };
       });
 
-      return remapUsers
-        .sort(
-          (a, b) => b.contributions_count.length - a.contributions_count.length
-        )
+      const top = remapUsers
+        .sort((a, b) => b.contributions_count - a.contributions_count)
         .slice(0, 30);
+
+      resolve(top);
     }),
-};
+});
 
 module.exports = getLeaderboard;

@@ -80,5 +80,5 @@ app.get("/pr_check/:username", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 
-  // init(bellshadeCache);
+  init(bellshadeCache);
 });
