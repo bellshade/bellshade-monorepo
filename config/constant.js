@@ -13,7 +13,7 @@ const GITHUB_CACHE_KEY = {
 const EXPIRY_TTL = {
   members: HOUR * 5,
   prInfo: HOUR * 1.5,
-  contributors: HOUR * 8,
+  contributors: HOUR * 12,
   leaderboard: HOUR * 12,
 };
 
