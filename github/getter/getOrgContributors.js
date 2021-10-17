@@ -31,7 +31,8 @@ const getOrgContributors = () =>
             contrib.contributors.map(({ login, contributions }) =>
               getUser(login).then(({ login, avatar_url, html_url, name }) => ({
                 user: {
-                  name: name ? name : login,
+                  login,
+                  name,
                   html_url,
                   avatar_url,
                 },

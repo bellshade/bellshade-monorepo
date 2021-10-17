@@ -1,10 +1,10 @@
 const { getUser, searchPRs } = require("../fetcher");
-const getOrgContributors = require("./getOrgContributors");
 const { leaderboardQuery } = require("../config").query;
+const getOrgContributors = require("./getOrgContributors");
 
 const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../config/constant");
 
-const getLeaderboard = (cache = null) => ({
+const getLeaderboard = (cache) => ({
   PR: () =>
     searchPRs(leaderboardQuery)
       .then((PRs) => {
@@ -23,7 +23,8 @@ const getLeaderboard = (cache = null) => ({
           tops.map(async (top) => ({
             user: await getUser(top.username).then(
               ({ login, avatar_url, html_url, name }) => ({
-                name: name ? name : login,
+                login,
+                name,
                 html_url,
                 avatar_url,
               })
@@ -42,11 +43,11 @@ const getLeaderboard = (cache = null) => ({
   CONTRIB: () =>
     new Promise(async (resolve) => {
       // load existing cache, if exist
-      const dataCache = cache ? cache.get(GITHUB_CACHE_KEY.contributors) : null;
+      const dataCache = cache.get(GITHUB_CACHE_KEY.contributors);
       const data = dataCache ? dataCache : await getOrgContributors();
 
       // caching contributors data when it's not available
-      if (cache && !dataCache && !cache.get(GITHUB_CACHE_KEY.contributors))
+      if (!dataCache)
         cache.set(GITHUB_CACHE_KEY.contributors, data, EXPIRY_TTL.contributors);
 
       const remapNewData = data
