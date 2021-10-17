@@ -25,7 +25,8 @@ const getLeaderboard = (fastify) => {
             tops.map(async (top) => ({
               user: await getUser(top.username).then(
                 ({ login, avatar_url, html_url, name }) => ({
-                  name: name ? name : login,
+                  login,
+                  name,
                   html_url,
                   avatar_url,
                 })

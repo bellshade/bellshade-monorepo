@@ -1,13 +1,15 @@
-const { leaderboard, main } = require("./router");
-
 const fastify = require("fastify")({
   logger: process.env.NODE_ENV !== "production",
 });
 
+const { leaderboard, main } = require("./router");
+const { cacheAndConstant, commonSchema } = require("./plugin");
+
 // plugin
 fastify.register(require("fastify-compression"));
 fastify.register(require("fastify-cors"), require("./config/cors"));
-fastify.register(require("./plugin/cacheAndConstant"));
+fastify.register(cacheAndConstant);
+fastify.register(commonSchema);
 
 const cachePreHandler = require("./common/cachePreHandler")(fastify);
 

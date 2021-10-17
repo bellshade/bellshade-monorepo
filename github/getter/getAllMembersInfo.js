@@ -7,9 +7,9 @@ const getAllMembersInfo = () =>
     .then((members) =>
       members.map((member) => ({
         login: member.login,
-        avatar_url: member.avatar_url,
-        html_url: member.html_url,
         name: member.name,
+        html_url: member.html_url,
+        avatar_url: member.avatar_url,
       }))
     );
 

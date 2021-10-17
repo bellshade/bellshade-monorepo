@@ -6,13 +6,50 @@ const {
   getOrgContributors,
 } = require("../github");
 
+const members = {
+  type: "array",
+  items: { ref: "UserSchema#" },
+};
+
+const contributors = {
+  type: "array",
+  items: {
+    repo: { type: "string" },
+    contributors: {
+      type: "array",
+      items: {
+        user: { ref: "UserSchema#" },
+        contributions: { type: "number" },
+      },
+    },
+  },
+};
+
+const prCheck = {
+  type: "object",
+  properties: {
+    user: { ref: "UserSchema#" },
+    pull_requests: {
+      type: "array",
+      items: { ref: "PRSchema#" },
+    },
+  },
+};
+
 const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
   const { GITHUB_CACHE_KEY, EXPIRY_TTL } = fastify.constant;
   const cache = fastify.cache;
 
   fastify.get(
     "/",
-    { preHandler: cachePreHandler(GITHUB_CACHE_KEY.members) },
+    {
+      schema: {
+        response: {
+          200: members,
+        },
+      },
+      preHandler: cachePreHandler(GITHUB_CACHE_KEY.members),
+    },
     async (req, reply) => {
       const data = await getAllMembersInfo();
 
@@ -23,7 +60,14 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
 
   fastify.get(
     "/contributors",
-    { preHandler: cachePreHandler(GITHUB_CACHE_KEY.contributors) },
+    {
+      schema: {
+        response: {
+          200: contributors,
+        },
+      },
+      preHandler: cachePreHandler(GITHUB_CACHE_KEY.contributors),
+    },
     async (req, reply) => {
       const data = await getOrgContributors();
 
@@ -44,6 +88,9 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
             },
           },
           required: ["username"],
+        },
+        response: {
+          200: prCheck,
         },
       },
       preHandler: (req, reply, done) => {
