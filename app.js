@@ -1,4 +1,4 @@
-const { leaderboard, main } = require("./routes");
+const { leaderboard, main } = require("./router");
 
 const fastify = require("fastify")({
   logger: process.env.NODE_ENV !== "production",
