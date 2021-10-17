@@ -7,7 +7,7 @@ const { fastifySchedulePlugin } = require("fastify-schedule");
 const { cacheAndConstant, commonSchema, scheduler } = require("./plugin");
 
 // plugin
-fastify.register(require("fastify-compression"));
+fastify.register(require("fastify-compress"));
 fastify.register(require("fastify-cors"), require("./config/cors"));
 fastify.register(fastifySchedulePlugin);
 fastify.register(cacheAndConstant);

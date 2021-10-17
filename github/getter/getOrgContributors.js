@@ -3,16 +3,19 @@ const { getUser, getOrgRepos, getRepoContributors } = require("../fetcher");
 
 const getOrgContributors = () =>
   getOrgRepos() // Get all repo
-    .then((data) =>
+    .then((data) => {
       // eliminate blacklisted repos
-      data.map(({ name }) => name).filter((r) => !blacklist.includes(r))
-    )
-    .then((repos) =>
-      Promise.all(
+      const repos = data
+        .map(({ name }) => name)
+        .filter((r) => !blacklist.includes(r));
+
+      return Promise.all(
+        // get all contributors
         repos.map(async (repo) => {
           const allContributors = await getRepoContributors(repo);
 
-          return {
+          // Get all contributor, and filter the bot
+          const contrib = {
             repo,
             contributors: allContributors
               .filter(({ type }) => type !== "Bot") // Eliminate bot
@@ -21,12 +24,8 @@ const getOrgContributors = () =>
                 contributions: data.contributions,
               })),
           };
-        })
-      )
-    )
-    .then((contribs) =>
-      Promise.all(
-        contribs.map(async (contrib) => {
+
+          // Refetch user info
           const reftechUser = await Promise.all(
             contrib.contributors.map(({ login, contributions }) =>
               getUser(login).then(({ login, avatar_url, html_url, name }) => ({
@@ -46,7 +45,7 @@ const getOrgContributors = () =>
             contributors: reftechUser,
           };
         })
-      )
-    );
+      );
+    });
 
 module.exports = getOrgContributors;
