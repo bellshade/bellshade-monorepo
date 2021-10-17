@@ -1,20 +1,5 @@
 const { getLeaderboard } = require("../github");
 
-const PR = {
-  type: "array",
-  items: {
-    type: "object",
-    properties: {
-      user: { ref: "UserSchema#" },
-      pull_requests: {
-        type: "array",
-        items: { ref: "PRSchema#" },
-      },
-      prs_count: { type: "number" },
-    },
-  },
-};
-
 const contribution = {
   type: "array",
   items: {
@@ -43,7 +28,20 @@ const leaderboard = (cachePreHandler) => (fastify, opts, done) => {
     {
       schema: {
         response: {
-          200: PR,
+          200: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                user: { ref: "UserSchema#" },
+                pull_requests: {
+                  type: "array",
+                  items: { ref: "PRSchema#" },
+                },
+                prs_count: { type: "number" },
+              },
+            },
+          },
         },
       },
       preHandler: cachePreHandler(GITHUB_CACHE_KEY.leaderboard.pr),
