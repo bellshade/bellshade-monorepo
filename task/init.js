@@ -1,12 +1,14 @@
-const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../config/constant");
-
 const {
   getAllMembersInfo,
   getOrgContributors,
   getLeaderboard,
 } = require("../github");
 
-const init = async (cache) => {
+const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../config/constant");
+
+const init = async (fastify) => {
+  const cache = fastify.cache;
+
   const {
     PR: PullRequestLeaderboard,
     CONTRIB: ContributionLeaderboard,

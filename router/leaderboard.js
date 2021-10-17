@@ -19,9 +19,10 @@ const contribution = {
 };
 
 const leaderboard = (cachePreHandler) => (fastify, opts, done) => {
-  const { PR, CONTRIB } = getLeaderboard(fastify);
-  const { GITHUB_CACHE_KEY, EXPIRY_TTL } = fastify.constant;
   const cache = fastify.cache;
+  const { GITHUB_CACHE_KEY, EXPIRY_TTL } = fastify.constant;
+
+  const { PR, CONTRIB } = getLeaderboard(cache);
 
   fastify.get(
     "/pr",

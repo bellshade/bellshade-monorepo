@@ -1,28 +1,11 @@
 const fp = require("fastify-plugin");
 const NodeCache = require("node-cache");
 
-const HOUR = 3600;
-
-const GITHUB_CACHE_KEY = {
-  members: "gh_bellshade_members",
-  contributors: "gh_bellshade_contributors",
-  leaderboard: {
-    all: "gh_bellshade_leaderboard",
-    pr: "gh_bellshade_lbrd_pr",
-    contribution: "gh_bellshade_lbrd_contrib",
-  },
-  prInfo: (username) => `pr_info_user:${username}`,
-};
-const EXPIRY_TTL = {
-  members: HOUR * 5,
-  prInfo: HOUR * 1.5,
-  contributors: HOUR * 8,
-  leaderboard: HOUR * 12,
-};
+const constant = require("../config/constant");
 
 module.exports = fp((fastify, opts, done) => {
   fastify.decorate("cache", new NodeCache());
-  fastify.decorate("constant", { GITHUB_CACHE_KEY, EXPIRY_TTL });
+  fastify.decorate("constant", constant);
 
   done();
 });
