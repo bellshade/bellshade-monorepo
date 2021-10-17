@@ -1,3 +1,6 @@
+const fp = require("fastify-plugin");
+const NodeCache = require("node-cache");
+
 const HOUR = 3600;
 
 const GITHUB_CACHE_KEY = {
@@ -17,7 +20,9 @@ const EXPIRY_TTL = {
   leaderboard: HOUR * 12,
 };
 
-module.exports = {
-  GITHUB_CACHE_KEY,
-  EXPIRY_TTL,
-};
+module.exports = fp((fastify, opts, done) => {
+  fastify.decorate("cache", new NodeCache());
+  fastify.decorate("constant", { GITHUB_CACHE_KEY, EXPIRY_TTL });
+
+  done();
+});

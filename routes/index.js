@@ -1,3 +1,4 @@
 const leaderboard = require("./leaderboard");
+const main = require("./main");
 
-module.exports = { leaderboard };
+module.exports = { leaderboard, main };

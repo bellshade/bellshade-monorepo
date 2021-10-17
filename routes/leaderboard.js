@@ -1,46 +1,37 @@
-const express = require("express");
-
 const { getLeaderboard } = require("../github");
-const commonErrorHandler = require("../common/errorHandler");
-const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../config/constant");
 
-const routerContainer = (cache) => {
-  const { PR, CONTRIB } = getLeaderboard(cache);
-  const router = express.Router();
+const leaderboard = (fastify, opts, done) => {
+  const { PR, CONTRIB } = getLeaderboard(fastify);
+  const { GITHUB_CACHE_KEY, EXPIRY_TTL } = fastify.constant;
+  const cache = fastify.cache;
 
-  router.get("/pr", (req, res) => {
+  fastify.get("/pr", (req, reply) => {
     const dataCache = cache.get(GITHUB_CACHE_KEY.leaderboard.pr);
-    if (dataCache) return res.json(dataCache);
+    if (dataCache) return reply.send(dataCache);
 
-    PR()
-      .then((data) => {
-        cache.set(
-          GITHUB_CACHE_KEY.leaderboard.pr,
-          data,
-          EXPIRY_TTL.leaderboard
-        );
-        res.json(data);
-      })
-      .catch(commonErrorHandler(res));
+    PR().then((data) => {
+      cache.set(GITHUB_CACHE_KEY.leaderboard.pr, data, EXPIRY_TTL.leaderboard);
+      reply.send(data);
+    });
+    // .catch(commonErrorHandler(reply));
   });
 
-  router.get("/contribution", (req, res) => {
+  fastify.get("/contribution", (req, reply) => {
     const dataCache = cache.get(GITHUB_CACHE_KEY.leaderboard.contribution);
-    if (dataCache) return res.json(dataCache);
+    if (dataCache) return reply.send(dataCache);
 
-    CONTRIB()
-      .then((data) => {
-        cache.set(
-          GITHUB_CACHE_KEY.leaderboard.contribution,
-          data,
-          EXPIRY_TTL.leaderboard
-        );
-        res.json(data);
-      })
-      .catch(commonErrorHandler(res));
+    CONTRIB().then((data) => {
+      cache.set(
+        GITHUB_CACHE_KEY.leaderboard.contribution,
+        data,
+        EXPIRY_TTL.leaderboard
+      );
+      reply.send(data);
+    });
+    // .catch(commonErrorHandler(reply));
   });
 
-  return router;
+  done();
 };
 
-module.exports = routerContainer;
+module.exports = leaderboard;
