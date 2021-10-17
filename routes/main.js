@@ -4,7 +4,7 @@ const {
   getOrgContributors,
 } = require("../github");
 
-const routerContainer = (fastify, opts, done) => {
+const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
   const { GITHUB_CACHE_KEY, EXPIRY_TTL } = fastify.constant;
   const cache = fastify.cache;
 

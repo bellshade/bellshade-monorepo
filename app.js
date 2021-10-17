@@ -1,4 +1,3 @@
-const PORT = process.env.PORT || 3000;
 const { leaderboard, main } = require("./routes");
 
 const fastify = require("fastify")({
