@@ -8,9 +8,10 @@ const {
 } = require("../github");
 const hook = require("../helpers/hook");
 
+const format = "**DD MMMM YYYY HH:mm:ss UTC**";
+
 const getTime = (seconds) => {
   const now = moment.utc();
-  const format = "**DD MMMM YYYY HH:mm:ss UTC**";
 
   return {
     now: now.format(format),
@@ -26,7 +27,7 @@ const sender = (message, time) =>
       time.now
     }\nNext Data Fetch at ${time.next}
 
-Sended from \`task/init.js 22:3\`.
+Sended from \`task/init.js\`.
     `
   );
 
@@ -36,7 +37,27 @@ const runImmediately = true;
 const init = (fastify) => {
   const cache = fastify.cache;
 
-  const commonErrorHandler = (err) => fastify.log.error(err);
+  const commonErrorHandler = (err) => {
+    const errorData = Object.values(err.response.data);
+
+    fastify.log.error(errorData.join(" "));
+    hook.send(
+      `[**SCHEDULER**]\t:red_circle:  ERROR  :red_circle:
+Timestamp: ${moment.utc().format(format)}
+
+${
+  errorData.length > 0
+    ? errorData.join("\n")
+    : `
+\`\`\`json
+${JSON.stringify(err)}
+\`\`\`
+`
+}
+
+Sended from \`task/init.js\``
+    );
+  };
 
   const {
     PR: PullRequestLeaderboard,
