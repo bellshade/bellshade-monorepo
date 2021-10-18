@@ -16,10 +16,12 @@
   "dependencies": {
     "@octokit/rest": "^18.10.0",
     "fastify": "^3.22.0",
+    "fastify-autoload": "^3.9.0",
     "fastify-compress": "^3.6.1",
     "fastify-cors": "^6.0.2",
     "fastify-plugin": "^3.0.0",
     "fastify-schedule": "^1.0.0",
+    "fastify-swagger": "^4.12.4",
     "github-username-regex": "^1.0.0",
     "node-cache": "^5.1.2",
     "toad-scheduler": "^1.5.0"
