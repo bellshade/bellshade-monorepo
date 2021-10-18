@@ -19,7 +19,7 @@ fastify.register(require("fastify-autoload"), {
 const cachePreHandler = require("./common/cachePreHandler")(fastify);
 
 // routing
-fastify.register(main(cachePreHandler), { prefix: "/" });
+fastify.register(main(cachePreHandler));
 fastify.register(leaderboard(cachePreHandler), { prefix: "/leaderboard" });
 
 module.exports = fastify;
