@@ -1,16 +1,20 @@
 const { getLeaderboard } = require("../github");
+const { user, pull_requests } = require("../common/schema");
 
 const contribution = {
   type: "array",
   items: {
     type: "object",
     properties: {
-      user: { ref: "UserSchema#" },
+      user: { type: "object", properties: user },
       contributions: {
         type: "array",
-        properties: {
-          contributions: { type: "number" },
-          repo: { type: "string" },
+        items: {
+          type: "object",
+          properties: {
+            contributions: { type: "number" },
+            repo: { type: "string" },
+          },
         },
       },
       contributions_count: { type: "number" },
@@ -34,10 +38,10 @@ const leaderboard = (cachePreHandler) => (fastify, opts, done) => {
             items: {
               type: "object",
               properties: {
-                user: { ref: "UserSchema#" },
+                user: { type: "object", properties: user },
                 pull_requests: {
                   type: "array",
-                  items: { ref: "PRSchema#" },
+                  items: { type: "object", properties: pull_requests },
                 },
                 prs_count: { type: "number" },
               },

@@ -1,4 +1,5 @@
 const githubRegex = require("github-username-regex");
+const { user, pull_requests } = require("../common/schema");
 
 const {
   getAllMembersInfo,
@@ -8,18 +9,23 @@ const {
 
 const members = {
   type: "array",
-  items: { ref: "UserSchema#" },
+  items: { type: "object", properties: user },
 };
 
 const contributors = {
   type: "array",
   items: {
-    repo: { type: "string" },
-    contributors: {
-      type: "array",
-      items: {
-        user: { ref: "UserSchema#" },
-        contributions: { type: "number" },
+    properties: {
+      repo: { type: "string" },
+      contributors: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            user: { type: "object", properties: user },
+            contributions: { type: "number" },
+          },
+        },
       },
     },
   },
@@ -28,10 +34,10 @@ const contributors = {
 const prCheck = {
   type: "object",
   properties: {
-    user: { ref: "UserSchema#" },
+    user: { type: "object", properties: user },
     pull_requests: {
       type: "array",
-      items: { ref: "PRSchema#" },
+      items: { type: "object", properties: pull_requests },
     },
   },
 };
