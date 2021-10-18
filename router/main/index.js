@@ -15,6 +15,7 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
     "/",
     {
       schema: {
+        description: "Daftar anggota Organisasi Github Bellshade yang Public.",
         response: {
           200: members,
         },
@@ -33,6 +34,8 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
     "/contributors",
     {
       schema: {
+        description:
+          "Daftar seluruh kontributor yang sudah berkontribusi ke Organisasi Github Bellshade.",
         response: {
           200: contributors,
         },
@@ -51,6 +54,8 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
     "/pr_check/:username",
     {
       schema: {
+        description:
+          "Endpoint yang digunakan untuk mengecek pull request yang sudah di merge ke bellshade. Diperlukan sebuah username github sebagai parameternya.",
         params: {
           type: "object",
           properties: {

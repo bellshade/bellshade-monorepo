@@ -11,6 +11,8 @@ const leaderboard = (cachePreHandler) => (fastify, opts, done) => {
     "/pr",
     {
       schema: {
+        description:
+          "Leaderboard untuk Top 30 User Github yang memiliki PR terbanyak ke Github Bellshade.",
         response: {
           200: pullRequests,
         },
@@ -29,6 +31,8 @@ const leaderboard = (cachePreHandler) => (fastify, opts, done) => {
     "/contribution",
     {
       schema: {
+        description:
+          "Leaderboard untuk Top 30 User Github yang memiliki kontribusi terbanyak ke Github Bellshade.",
         response: {
           200: contribution,
         },

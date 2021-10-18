@@ -4,7 +4,7 @@ module.exports = {
     info: {
       title: "Bellshade API",
       description:
-        "Daftar isi API yang tersedia untuk menampilkan data yang diambil dari Github API",
+        "Daftar isi API yang tersedia untuk menampilkan data yang diambil dari Github API untuk keperluan Organisasi Github Bellshade.",
       version: require("../package.json").version,
     },
     externalDocs: {
