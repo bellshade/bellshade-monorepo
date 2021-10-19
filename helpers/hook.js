@@ -3,7 +3,10 @@ const { Webhook } = require("discord-webhook-node");
 const initHook = (url) => {
   if (!url) throw new Error("REQUIRE DISCORD WEBHOOK URL!");
 
-  const hook = new Webhook(url);
+  const hook = new Webhook({
+    url,
+    throwErrors: false,
+  });
 
   const IMAGE_URL =
     "https://avatars.githubusercontent.com/u/76999048?s=200&v=4";
