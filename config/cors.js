@@ -2,7 +2,7 @@ const localhostOnly = (...ports) =>
   ports.map((port) => `http://localhost:${port}`);
 
 const allowList = [
-  new RegExp("https://(.*?).bellshade.org"),
+  new RegExp("https://((.*?).*)bellshade.org"),
   ...localhostOnly(3000, 3001, 5000),
   new RegExp("https://(.*?).github.io"),
 ];
