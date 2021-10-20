@@ -20,11 +20,13 @@ const init = (fastify) => {
   const cache = fastify.cache;
 
   const commonErrorHandler = (err) => {
-    const errorData = Object.values(err.response.data);
     const error =
-      errorData.length > 0 ? errorData.join(" ") : JSON.stringify(err);
+      err && typeof err.response === "object"
+        ? Object.value(err.response).join(" ")
+        : JSON.stringify(err);
 
     fastify.log.error(error);
+    fastify.log.error(err.stack);
     onError(error, err);
   };
 
