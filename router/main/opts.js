@@ -32,6 +32,7 @@ const prCheck = {
       type: "array",
       items: { type: "object", properties: pull_requests },
     },
+    prs_count: { type: "number" },
   },
 };
 
