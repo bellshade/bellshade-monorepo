@@ -40,7 +40,7 @@ const getLeaderboard = (cache) => ({
       );
     }),
   CONTRIB: () =>
-    new Promise(async (resolve) => {
+    new Promise(async (resolve, reject) => {
       try {
         // load existing cache, if exist
         const dataCache = cache.get(GITHUB_CACHE_KEY.contributors);
@@ -88,8 +88,8 @@ const getLeaderboard = (cache) => ({
           .slice(0, 30);
 
         resolve(top);
-      } catch (err) {
-        return Promise.reject(error);
+      } catch (error) {
+        reject(error);
       }
     }),
 });
