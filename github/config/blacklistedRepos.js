@@ -1,2 +1,7 @@
 // kontribusi ke repo ini tidak dianggap
-module.exports = ["programmingCourse", "bellshadebot", "open-api"];
+module.exports = [
+  "programmingCourse",
+  "bellshadebot",
+  "open-api",
+  "bellshade-server",
+];
