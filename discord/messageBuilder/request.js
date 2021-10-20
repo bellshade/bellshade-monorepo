@@ -16,11 +16,6 @@ if (!fs.existsSync(tmpPath)) {
 }
 
 const onError = async ({ stack, url, error, time }) => {
-  const readmifyMessage = `
-\`\`\`json
-${error}
-\`\`\`
-  `;
   const readmifyStack = `
 \`\`\`
 ${stack}
