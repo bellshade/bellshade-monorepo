@@ -1,9 +1,9 @@
 const { MessageBuilder } = require("discord-webhook-node");
-const hook = require("../helpers/hook");
+const hook = require("../../helpers/hook");
 
 const format = "DD MMMM YYYY HH:mm:ss UTC";
 
-const onSuccessScheduler = (message, time, seconds) => {
+const onSuccess = (message, time, seconds) => {
   const scheduler = message
     .replace("[SCHEDULER]", "")
     .replace("[SUCCESS]", "")
@@ -20,7 +20,7 @@ const onSuccessScheduler = (message, time, seconds) => {
   hook.send(embed);
 };
 
-const onErrorScheduler = (error, err) => {
+const onError = (error, err) => {
   const stacktrace = `
 \`\`\`
 ${err.stack}
@@ -38,6 +38,6 @@ ${err.stack}
 };
 
 module.exports = {
-  onSuccessScheduler,
-  onErrorScheduler,
+  onSuccess,
+  onError,
 };

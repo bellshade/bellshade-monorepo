@@ -2,8 +2,7 @@ const { SimpleIntervalJob, AsyncTask } = require("toad-scheduler");
 const moment = require("moment");
 
 const {
-  onSuccessScheduler,
-  onErrorScheduler,
+  scheduler: { onSuccess, onError },
 } = require("../discord/messageBuilder");
 
 const {
@@ -26,7 +25,7 @@ const init = (fastify) => {
       errorData.length > 0 ? errorData.join(" ") : JSON.stringify(err);
 
     fastify.log.error(error);
-    onErrorScheduler(error, err);
+    onError(error, err);
   };
 
   const {
@@ -44,7 +43,7 @@ const init = (fastify) => {
           cache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members);
 
           fastify.log.info(message);
-          onSuccessScheduler(message, getTime(), EXPIRY_TTL.members);
+          onSuccess(message, getTime(), EXPIRY_TTL.members);
         }),
       commonErrorHandler
     );
@@ -76,7 +75,7 @@ const init = (fastify) => {
             );
 
             fastify.log.info(message);
-            onSuccessScheduler(message, getTime(), EXPIRY_TTL.contributors);
+            onSuccess(message, getTime(), EXPIRY_TTL.contributors);
           }
         ),
       commonErrorHandler
@@ -102,7 +101,7 @@ const init = (fastify) => {
           );
 
           fastify.log.info(message);
-          onSuccessScheduler(message, getTime(), EXPIRY_TTL.leaderboard);
+          onSuccess(message, getTime(), EXPIRY_TTL.leaderboard);
         }),
       commonErrorHandler
     );
