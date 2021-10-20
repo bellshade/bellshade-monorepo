@@ -44,7 +44,7 @@ const getLeaderboard = (cache) => ({
               number: pr.number,
               created_at: pr.created_at,
               merged_at: pr.closed_at,
-              repo_name: splitted[splitted.length - 1],
+              repo: splitted[splitted.length - 1],
             };
           }),
           prs_count: top.PRs.length,
