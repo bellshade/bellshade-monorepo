@@ -1,10 +1,10 @@
 ## Bellshade Server Side
 
-Hanya sebuah proxy untuk mengambil data ke github api.
+Hanya sebuah proxy untuk mengambil data ke github API.
 
 ## Dev
 
-Yang pertama kali harus dilakukan adalah mengcopy file `.env.sample` dan mengubah namanya menjadi `.env`. Seteleh itu, buatlah sebuah [personal token](https://github.com/settings/tokens) github api dengan akses `read:org` dan `read:user`. Copy token tersebut ke field yang sudah ada di file `.env`.
+Yang pertama kali harus dilakukan adalah mengcopy file `.env.sample` dan mengubah namanya menjadi `.env`. Setelah itu, buatlah sebuah [personal token](https://github.com/settings/tokens) github api dengan akses `read:org` dan `read:user`. Copy token tersebut ke field yang sudah ada di file `.env`.
 
 ### Install Package
 
