@@ -40,7 +40,7 @@ const init = (fastify) => {
       "Get Bellshade public members",
       () =>
         getAllMembersInfo().then((data) => {
-          const message = "[SCHEDULER] Get Pull Request Leaderboard [SUCCESS]";
+          const message = "[SCHEDULER] Get Bellshade Public Members [SUCCESS]";
 
           cache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members);
 
