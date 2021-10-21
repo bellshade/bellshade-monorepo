@@ -19,11 +19,17 @@ const leaderboard = (cachePreHandler) => (fastify, opts, done) => {
       },
       preHandler: cachePreHandler(GITHUB_CACHE_KEY.leaderboard.pr),
     },
-    async (req, reply) => {
-      const data = await PR();
-
-      cache.set(GITHUB_CACHE_KEY.leaderboard.pr, data, EXPIRY_TTL.leaderboard);
-      return data;
+    (req, reply) => {
+      PR()
+        .then((data) => {
+          cache.set(
+            GITHUB_CACHE_KEY.leaderboard.pr,
+            data,
+            EXPIRY_TTL.leaderboard
+          );
+          reply.send(data);
+        })
+        .catch(fastify.APIerrorHandler(req, reply));
     }
   );
 
@@ -39,16 +45,17 @@ const leaderboard = (cachePreHandler) => (fastify, opts, done) => {
       },
       preHandler: cachePreHandler(GITHUB_CACHE_KEY.leaderboard.contribution),
     },
-    async (req, reply) => {
-      const data = await CONTRIB();
-
-      cache.set(
-        GITHUB_CACHE_KEY.leaderboard.contribution,
-        data,
-        EXPIRY_TTL.leaderboard
-      );
-
-      return data;
+    (req, reply) => {
+      CONTRIB()
+        .then((data) => {
+          cache.set(
+            GITHUB_CACHE_KEY.leaderboard.contribution,
+            data,
+            EXPIRY_TTL.leaderboard
+          );
+          reply.send(data);
+        })
+        .catch(fastify.APIerrorHandler(req, reply));
     }
   );
 

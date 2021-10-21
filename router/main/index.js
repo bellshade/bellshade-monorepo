@@ -22,11 +22,13 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
       },
       preHandler: cachePreHandler(GITHUB_CACHE_KEY.members),
     },
-    async (req, reply) => {
-      const data = await getAllMembersInfo();
-
-      cache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members);
-      reply.send(data);
+    (req, reply) => {
+      getAllMembersInfo()
+        .then((data) => {
+          cache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members);
+          reply.send(data);
+        })
+        .catch(fastify.APIerrorHandler(req, reply));
     }
   );
 
@@ -42,11 +44,18 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
       },
       preHandler: cachePreHandler(GITHUB_CACHE_KEY.contributors),
     },
-    async (req, reply) => {
-      const data = await getOrgContributors();
+    (req, reply) => {
+      getOrgContributors()
+        .then((data) => {
+          cache.set(
+            GITHUB_CACHE_KEY.contributors,
+            data,
+            EXPIRY_TTL.contributors
+          );
 
-      cache.set(GITHUB_CACHE_KEY.contributors, data, EXPIRY_TTL.contributors);
-      reply.send(data);
+          reply.send(data);
+        })
+        .catch(fastify.APIerrorHandler(req, reply));
     }
   );
 
@@ -86,14 +95,16 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
         done();
       },
     },
-    async (req, reply) => {
+    (req, reply) => {
       const username = req.params.username;
       const cacheKey = GITHUB_CACHE_KEY.prInfo(username);
 
-      const data = await getUserOrgValidContribution(username);
-
-      cache.set(cacheKey, data, EXPIRY_TTL.prInfo);
-      return data;
+      getUserOrgValidContribution(username)
+        .then((data) => {
+          cache.set(cacheKey, data, EXPIRY_TTL.prInfo);
+          reply.send(data);
+        })
+        .catch(fastify.APIerrorHandler(req, reply));
     }
   );
 

@@ -11,6 +11,7 @@ const schema = {
     number: { type: "number" },
     created_at: { type: "string" },
     merged_at: { type: "string" },
+    repo: { type: "string" },
   },
 };
 

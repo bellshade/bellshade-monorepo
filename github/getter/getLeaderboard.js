@@ -1,3 +1,4 @@
+const blacklist = require("../config/blacklistedRepos");
 const { getUser, searchPRs } = require("../fetcher");
 const { leaderboardQuery } = require("../config").query;
 const getOrgContributors = require("./getOrgContributors");
@@ -11,7 +12,13 @@ const getLeaderboard = (cache) => ({
       const filteredByUser = usernames // sort users pr
         .map((username) => ({
           username,
-          PRs: PRs.filter(({ user }) => user.login === username),
+          PRs: PRs.filter(({ user }) => user.login === username).filter(
+            ({ repository_url }) => {
+              const splitted = repository_url.split("/");
+
+              return !blacklist.includes(splitted[splitted.length - 1]);
+            }
+          ),
         }))
         .sort((a, b) => b.PRs.length - a.PRs.length);
 
@@ -28,13 +35,18 @@ const getLeaderboard = (cache) => ({
               avatar_url,
             })
           ),
-          pull_requests: top.PRs.map((pr) => ({
-            title: pr.title,
-            html_url: pr.html_url,
-            number: pr.number,
-            created_at: pr.created_at,
-            merged_at: pr.closed_at,
-          })),
+          pull_requests: top.PRs.map((pr) => {
+            const splitted = pr.repository_url.split("/");
+
+            return {
+              title: pr.title,
+              html_url: pr.html_url,
+              number: pr.number,
+              created_at: pr.created_at,
+              merged_at: pr.closed_at,
+              repo: splitted[splitted.length - 1],
+            };
+          }),
           prs_count: top.PRs.length,
         }))
       );
@@ -58,7 +70,8 @@ const getLeaderboard = (cache) => ({
           .map(({ repo, contributors }) =>
             contributors.map((contributor) => ({ ...contributor, repo }))
           )
-          .reduce((curr, acc) => curr.concat(acc));
+          .reduce((curr, acc) => curr.concat(acc))
+          .filter(({ repo }) => !blacklist.includes(repo));
 
         const usernames = [
           ...new Set(remapNewData.map(({ user }) => user.name)),

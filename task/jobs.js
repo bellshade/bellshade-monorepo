@@ -1,4 +1,9 @@
 const { SimpleIntervalJob, AsyncTask } = require("toad-scheduler");
+const moment = require("moment");
+
+const {
+  scheduler: { onSuccess, onError },
+} = require("../discord/messageBuilder");
 
 const {
   getAllMembersInfo,
@@ -6,13 +11,24 @@ const {
   getLeaderboard,
 } = require("../github");
 
+const getTime = () => moment.utc();
+
 const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../config/constant");
 const runImmediately = true;
 
 const init = (fastify) => {
   const cache = fastify.cache;
 
-  const commonErrorHandler = (err) => fastify.log.error(err);
+  const commonErrorHandler = (err) => {
+    const error =
+      err && typeof err.response === "object"
+        ? Object.value(err.response).join(" ")
+        : JSON.stringify(err);
+
+    fastify.log.error(error);
+    fastify.log.error(err.stack);
+    onError(error, err);
+  };
 
   const {
     PR: PullRequestLeaderboard,
@@ -24,11 +40,12 @@ const init = (fastify) => {
       "Get Bellshade public members",
       () =>
         getAllMembersInfo().then((data) => {
+          const message = "[SCHEDULER] Get Pull Request Leaderboard [SUCCESS]";
+
           cache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members);
 
-          fastify.log.info(
-            "[SCHEDULER] Get Bellshade public members [SUCCESS]"
-          );
+          fastify.log.info(message);
+          onSuccess(message, getTime(), EXPIRY_TTL.members);
         }),
       commonErrorHandler
     );
@@ -41,30 +58,28 @@ const init = (fastify) => {
 
   const orgContributors = (() => {
     const task = new AsyncTask(
-      "Get Bellshade Contributors and leaderboard",
+      "Get Bellshade Contributors and Contribution Leaderboard",
       () =>
-        getOrgContributors().then((data) => {
-          cache.set(
-            GITHUB_CACHE_KEY.contributors,
-            data,
-            EXPIRY_TTL.contributors
-          );
-          fastify.log.info(
-            "[SCHEDULER] Get Bellshade Contributors and leaderboard [CONTRIBUTORS][SUCCESS]"
-          );
+        Promise.all([getOrgContributors(), ContributionLeaderboard()]).then(
+          ([contributors, contribLeaderboard]) => {
+            const message =
+              "[SCHEDULER] Get Bellshade Contributors and Contribution Leaderboard [SUCCESS]";
 
-          return ContributionLeaderboard().then((data) => {
+            cache.set(
+              GITHUB_CACHE_KEY.contributors,
+              contributors,
+              EXPIRY_TTL.contributors
+            );
             cache.set(
               GITHUB_CACHE_KEY.leaderboard.contribution,
-              data,
+              contribLeaderboard,
               EXPIRY_TTL.leaderboard
             );
 
-            fastify.log.info(
-              "[SCHEDULER] Get Bellshade Contributors and leaderboard [LEADERBOARD][SUCCESS]"
-            );
-          });
-        }),
+            fastify.log.info(message);
+            onSuccess(message, getTime(), EXPIRY_TTL.contributors);
+          }
+        ),
       commonErrorHandler
     );
 
@@ -79,15 +94,16 @@ const init = (fastify) => {
       "Get Pull Request Leaderboard",
       () =>
         PullRequestLeaderboard().then((data) => {
+          const message = "[SCHEDULER] Get Pull Request Leaderboard [SUCCESS]";
+
           cache.set(
             GITHUB_CACHE_KEY.leaderboard.pr,
             data,
             EXPIRY_TTL.leaderboard
           );
 
-          fastify.log.info(
-            "[SCHEDULER] Get Pull Request Leaderboard [SUCCESS]"
-          );
+          fastify.log.info(message);
+          onSuccess(message, getTime(), EXPIRY_TTL.leaderboard);
         }),
       commonErrorHandler
     );
