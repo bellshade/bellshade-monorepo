@@ -5,7 +5,7 @@ const getNextPage = require("./getNextPage");
 
 const getMembers = () =>
   octokit.orgs
-    .listPublicMembers({ org: "bellshade", per_pae: 1000 })
+    .listPublicMembers({ org: "bellshade", per_page: 100 })
     .then(({ data }) => data);
 
 const getUser = (username) =>
