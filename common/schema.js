@@ -1,7 +1,7 @@
 const schema = {
   user: {
     login: { type: "string" },
-    name: { type: "string" },
+    name: { type: "string", nullable: true },
     html_url: { type: "string" },
     avatar_url: { type: "string" },
   },
