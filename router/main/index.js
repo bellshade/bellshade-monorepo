@@ -104,7 +104,7 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
           cache.set(cacheKey, data, EXPIRY_TTL.prInfo);
           reply.send(data);
         })
-        .catch(fastify.APIerrorHandler(req, reply));
+        .catch(fastify.notFound(req, reply));
     }
   );
 
