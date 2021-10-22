@@ -104,7 +104,19 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
           cache.set(cacheKey, data, EXPIRY_TTL.prInfo);
           reply.send(data);
         })
-        .catch(fastify.notFound(req, reply));
+        .catch((error) => {
+          // github user not found
+          if (error.response.status === 422) {
+            reply.code(404).send({
+              message: `Username github '${username}' tidak ditemukan!`,
+              error: "Not Found",
+              statusCode: 404,
+            });
+          } else {
+            // other error
+            fastify.APIerrorHandler(req, res)(error);
+          }
+        });
     }
   );
 
