@@ -63,8 +63,11 @@ const init = (fastify) => {
     const task = new AsyncTask(
       "Get Bellshade Contributors and Contribution Leaderboard",
       () =>
-        Promise.all([getOrgContributors(), ContributionLeaderboard()]).then(
-          ([contributors, contribLeaderboard]) => {
+        getOrgContributors()
+          .then((contributors) =>
+            Promise.all([contributors, ContributionLeaderboard()])
+          )
+          .then(([contributors, contribLeaderboard]) => {
             const message =
               "[SCHEDULER] Get Bellshade Contributors and Contribution Leaderboard [SUCCESS]";
 
@@ -81,8 +84,7 @@ const init = (fastify) => {
 
             fastify.log.info(message);
             onSuccess(message, getTime(), EXPIRY_TTL.contributors);
-          }
-        ),
+          }),
       commonErrorHandler
     );
 
