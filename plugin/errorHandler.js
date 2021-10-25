@@ -10,7 +10,7 @@ module.exports = fp((fastify, opts, done) => {
     onError({
       stack: error.stack,
       url: request.url,
-      error: JSON.stringify(error.response, null, 2),
+      error: JSON.stringify({ stack: error.stack, error }, null, 2),
       time: new Date(),
     });
   });
