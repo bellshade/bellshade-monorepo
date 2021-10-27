@@ -4,13 +4,25 @@ Hanya sebuah proxy untuk mengambil data ke github API.
 
 ## Dev
 
-Yang pertama kali harus dilakukan adalah mengcopy file `.env.sample` dan mengubah namanya menjadi `.env`. Setelah itu, buatlah sebuah [personal token](https://github.com/settings/tokens) github api dengan akses `read:org` dan `read:user`. Copy token tersebut ke field yang sudah ada di file `.env`.
+### Environment Variable
 
-Kedua, buatlah sebuah discord webhook di sebuah server discord, salin linknya. Tempel link yang di salin ke field yang sudah ada di file `.env`.
+Copy file `.env.sample` dan ubah namanya menjadi `.env`, isikan variabel sesuai Keterangan dibawah.
+
+```
+GITHUB_TOKEN_API=
+DISCORD_WEBHOOK_URL=
+MENTION_DISCORD_USER_ID=
+```
+
+Keterangan :
+
+- `GITHUB_TOKEN_API` : Untuk akses yang limitnya besar, diperlukan github personal token, buatlah [disini](https://github.com/settings/tokens) dengan akses `read:org` dan `read:user`.
+- `DISCORD_WEBHOOK_URL` : Untuk kemudahan logging data error ataupun scheduler, aplikasi ini mengandalkan discord webhook. Baca [artikel ini](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) untuk lebih lengkap apa itu discord webhook dan cara mendapatkan urlnya.
+- `MENTION_DISCORD_USER_ID` : Ketika ada error di aplikasi, webhook akan mengirimkan data error dan men-tag seseorang yang menangani aplikasi ini. Baca [artikel ini](https://birdie0.github.io/discord-webhooks-guide/other/discord_markdown.html#discord-tags) dan tempelkan id nya saja (misal `1236420xxxx`).
 
 ### Install Package
 
-Install terlebih dahulu package yang diperlukan
+Install package yang diperlukan sebelum menjalankan
 
 ```bash
 npm install

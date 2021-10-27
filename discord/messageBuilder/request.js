@@ -1,19 +1,9 @@
 const { MessageBuilder } = require("discord-webhook-node");
 const hook = require("../../helpers/hook");
+const { MENTION_DISCORD_USER_ID, tmpPath } = require("../config");
 
 const fs = require("fs");
 const path = require("path");
-
-const tmpPath = path.join(__dirname, "../tmp");
-
-// If not exist create the directory, if exist delete existing file
-if (!fs.existsSync(tmpPath)) {
-  fs.mkdirSync(tmpPath);
-} else {
-  fs.readdirSync(tmpPath)?.forEach((file) =>
-    fs.unlinkSync(path.join(tmpPath, file))
-  );
-}
 
 const onError = async ({ stack, url, error, time }) => {
   const readmifyStack = `
@@ -31,6 +21,7 @@ ${stack}
     .addField("URL", `\`${url}\``)
     .addField("Stacktrace", readmifyStack)
     .addField("Error File", `\`${errorFilename}\``)
+    .addField("Mention Maintainer", `<@${MENTION_DISCORD_USER_ID}>`)
     .setTimestamp(time);
 
   await fs.promises.writeFile(filePath, error);
