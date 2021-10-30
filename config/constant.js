@@ -1,5 +1,7 @@
 const HOUR = 3600;
 
+const contributorsAndLeaderboard = HOUR * 20;
+
 const GITHUB_CACHE_KEY = {
   members: "gh_bellshade_members",
   contributors: "gh_bellshade_contributors",
@@ -11,10 +13,10 @@ const GITHUB_CACHE_KEY = {
   prInfo: (username) => `pr_info_user:${username}`,
 };
 const EXPIRY_TTL = {
-  members: HOUR * 5,
-  prInfo: HOUR * 1.5,
-  contributors: HOUR * 12,
-  leaderboard: HOUR * 12,
+  members: HOUR * 18,
+  prInfo: HOUR * 5,
+  contributors: contributorsAndLeaderboard,
+  leaderboard: contributorsAndLeaderboard,
 };
 
 module.exports = { GITHUB_CACHE_KEY, EXPIRY_TTL };
