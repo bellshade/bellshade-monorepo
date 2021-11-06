@@ -8,7 +8,9 @@ const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../config/constant");
 const getLeaderboard = (cache) => ({
   PR: () =>
     searchPRs(leaderboardQuery).then((PRs) => {
-      const usernames = [...new Set(PRs.map((data) => data.user.login))]; // list all username, remove duplicate username
+      const usernames = [...new Set(PRs.map((data) => data.user.login))].filter(
+        (user) => !user.includes("[bot]")
+      ); // list all username, remove duplicate username
       const filteredByUser = usernames // sort users pr
         .map((username) => ({
           username,
