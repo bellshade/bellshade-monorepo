@@ -8,7 +8,7 @@ module.exports = {
       version: require("../package.json").version,
     },
     externalDocs: {
-      url: "https://discord.gg/wpu",
+      url: "https://discord.gg/S4rrXQU",
       description: "Info selengkapnya, tanyakan di Discord WPU",
     },
     consumes: ["application/json"],
