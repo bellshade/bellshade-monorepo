@@ -5,6 +5,30 @@ const members = {
   items: { type: "object", properties: user },
 };
 
+const repos = {
+  type: "array",
+  items: {
+    properties: {
+      name: { type: "string" },
+      html_url: { type: "string" },
+      stargazers_count: { type: "number" },
+      forks_count: { type: "number" },
+      license: {
+        type: "object",
+        properties: {
+          key: { type: "string" },
+          name: { type: "string" },
+          spdx_id: { type: "string" },
+        },
+        nullable: true,
+      },
+      topics: {
+        type: "array",
+      },
+    },
+  },
+};
+
 const contributors = {
   type: "array",
   items: {
@@ -36,4 +60,4 @@ const prCheck = {
   },
 };
 
-module.exports = { members, contributors, prCheck };
+module.exports = { members, repos, contributors, prCheck };
