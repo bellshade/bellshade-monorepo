@@ -7,6 +7,7 @@ const {
 
 const {
   getAllMembersInfo,
+  getAllReposWithInfo,
   getOrgContributors,
   getLeaderboard,
 } = require("../github");
@@ -55,6 +56,27 @@ const init = (fastify) => {
 
     return new SimpleIntervalJob(
       { seconds: EXPIRY_TTL.members, runImmediately },
+      task
+    );
+  })();
+
+  const getRepos = (() => {
+    const task = new AsyncTask(
+      "Get Bellshade all public repos",
+      () =>
+        getAllReposWithInfo().then((data) => {
+          const message = "[SCHEDULER] Get Bellshade Public Repos [SUCCESS]";
+
+          cache.set(GITHUB_CACHE_KEY.repos, data, EXPIRY_TTL.repos);
+
+          fastify.log.info(message);
+          onSuccess(message, getTime(), EXPIRY_TTL.repos);
+        }),
+      commonErrorHandler
+    );
+
+    return new SimpleIntervalJob(
+      { seconds: EXPIRY_TTL.repos, runImmediately },
       task
     );
   })();
@@ -119,7 +141,7 @@ const init = (fastify) => {
     );
   })();
 
-  return [getMembers, orgContributors, PRLeaderboard];
+  return [getMembers, getRepos, orgContributors, PRLeaderboard];
 };
 
 module.exports = init;

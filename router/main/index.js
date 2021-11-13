@@ -4,8 +4,9 @@ const {
   getAllMembersInfo,
   getUserOrgValidContribution,
   getOrgContributors,
+  getAllReposWithInfo,
 } = require("../../github");
-const { members, contributors, prCheck } = require("./opts");
+const { members, repos, contributors, prCheck } = require("./opts");
 
 const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
   const { GITHUB_CACHE_KEY, EXPIRY_TTL } = fastify.constant;
@@ -26,6 +27,28 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
       getAllMembersInfo()
         .then((data) => {
           cache.set(GITHUB_CACHE_KEY.members, data, EXPIRY_TTL.members);
+          reply.send(data);
+        })
+        .catch(fastify.APIerrorHandler(req, reply));
+    }
+  );
+
+  fastify.get(
+    "/repos",
+    {
+      schema: {
+        description:
+          "Daftar seluruh repositori publik yang ada di Organisasi Github Bellshade.",
+        response: {
+          200: repos,
+        },
+      },
+      preHandler: cachePreHandler(GITHUB_CACHE_KEY.repos),
+    },
+    (req, reply) => {
+      getAllReposWithInfo()
+        .then((data) => {
+          cache.set(GITHUB_CACHE_KEY.repos, data, EXPIRY_TTL.repos);
           reply.send(data);
         })
         .catch(fastify.APIerrorHandler(req, reply));
