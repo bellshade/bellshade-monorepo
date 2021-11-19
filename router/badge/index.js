@@ -1,96 +1,81 @@
-const fs = require("fs");
-const path = require("path");
-const poppins = path.dirname(require.resolve("@fontsource/poppins"));
-const { registerFont, createCanvas, loadImage, Image } = require("canvas");
+const {
+  createCanvas,
+  getTextWidth,
+  DEFAULT_FONT,
+  GREY_RECT,
+  GREEN_RECT,
+  NAVIGATION_TYPES,
+} = require("./config");
 
-const allRegularFont = path.join(poppins, "files/poppins-all-400-normal.woff");
-registerFont(allRegularFont, { family: "Poppins" });
-
-const font = "18px Poppins";
-const greyRect = "#555555";
-const greenRect = "#44cc11";
-
-function getTextWidth(text) {
-  const canvas = createCanvas();
-  const ctx = canvas.getContext("2d");
-
-  ctx.font = font;
-
-  const metrics = ctx.measureText(text);
-  return metrics.width;
-}
-
-const badge = (cachePreHandler) => (fastify, opts, done) => {
+const badge = (fastify, opts, done) => {
   fastify.get(
-    "/next",
+    "/navigation",
     {
       schema: {
         querystring: {
           text: { type: "string" },
+          badgeType: { type: "string" },
         },
+        required: ["text", "badgeType"],
+      },
+      preHandler: (req, reply, done) => {
+        const type = req.query.badgeType;
+
+        if (!NAVIGATION_TYPES.includes(type))
+          reply.code(400).send({
+            message: `Parameter "badgeType" tidak valid, diharapkan ${NAVIGATION_TYPES.map(
+              (e) => `"${e}"`
+            ).join(" atau ")}.`,
+          });
+
+        done();
       },
     },
     (req, reply) => {
       const text = req.query.text;
 
       // Init canvas
-      const greyRectWidth = getTextWidth(text) + 31;
+      const greyRectWidth = getTextWidth(text);
       const canvas = createCanvas(greyRectWidth + 25, 37);
       const ctx = canvas.getContext("2d");
 
-      // Grey Rectangle
-      ctx.fillStyle = greyRect;
-      ctx.fillRect(0, 0, greyRectWidth, 37);
+      switch (req.query.badgeType) {
+        case "next":
+          // Grey Rectangle
+          ctx.fillStyle = GREY_RECT;
+          ctx.fillRect(0, 0, greyRectWidth, 37);
 
-      // Green Rectangle
-      ctx.fillStyle = greenRect;
-      ctx.fillRect(greyRectWidth - 10, 0, 37, 37);
+          // Green Rectangle
+          ctx.fillStyle = GREEN_RECT;
+          ctx.fillRect(greyRectWidth - 10, 0, 37, 37);
 
-      // fill text from query string
-      ctx.font = font;
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText(text, 10, canvas.height / 2 + 5);
+          // fill text from query string
+          ctx.font = DEFAULT_FONT;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(text, 10, canvas.height / 2 + 5);
 
-      // Draw '>' logo
-      ctx.font = '45px "Poppins" bold';
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText(">", (9.8 / 10) * greyRectWidth, canvas.height / 2 + 14);
+          // Draw '>' logo
+          ctx.font = '45px "Poppins" bold';
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(">", (9.8 / 10) * greyRectWidth, canvas.height / 2 + 14);
+          break;
 
-      const stream = canvas.createPNGStream("image/png");
+        case "previous":
+          ctx.fillStyle = greyRect;
+          ctx.fillRect(37, 0, greyRectWidth, 37);
 
-      reply.header("Content-Type", "image/png").send(stream);
-    }
-  );
+          ctx.fillStyle = greenRect;
+          ctx.fillRect(0, 0, 37, 37);
 
-  fastify.get(
-    "/prev",
-    {
-      schema: {
-        querystring: {
-          text: { type: "string" },
-        },
-      },
-    },
-    (req, reply) => {
-      const text = req.query.text;
+          ctx.font = DEFAULT_FONT;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(text, 47, canvas.height / 2 + 5);
 
-      const greyRectWidth = getTextWidth(text) + 31;
-      const canvas = createCanvas(greyRectWidth + 25, 37);
-      const ctx = canvas.getContext("2d");
-
-      ctx.fillStyle = greyRect;
-      ctx.fillRect(37, 0, greyRectWidth, 37);
-
-      ctx.fillStyle = greenRect;
-      ctx.fillRect(0, 0, 37, 37);
-
-      ctx.font = font;
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText(text, 47, canvas.height / 2 + 5);
-
-      ctx.font = '45px "Poppins" bold';
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText("<", (1 / 20) * canvas.width, canvas.height / 2 + 14);
+          ctx.font = '45px "Poppins" bold';
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText("<", (1 / 20) * canvas.width, canvas.height / 2 + 14);
+          break;
+      }
 
       const stream = canvas.createPNGStream("image/png");
 

@@ -21,9 +21,8 @@ const cachePreHandler = require("./common/cachePreHandler")(fastify);
 // routing
 fastify.register(main(cachePreHandler));
 fastify.register(leaderboard(cachePreHandler), { prefix: "/leaderboard" });
-fastify.register(badge(cachePreHandler), {
+fastify.register(badge, {
   prefix: "/badge",
-  enableSwagger: false,
 });
 
 module.exports = fastify;
