@@ -5,6 +5,7 @@ const allowList = [
   new RegExp("https://((.*?).*)bellshade.org"),
   ...localhostOnly(3000, 3001, 5000),
   new RegExp("https://(.*?).github.io"),
+  "https://github.com",
 ];
 
 module.exports = {
