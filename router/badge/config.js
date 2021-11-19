@@ -13,6 +13,18 @@ const GREEN_RECT = "#44cc11";
 
 const NAVIGATION_TYPES = ["next", "previous"];
 
+const getImage = (pathToImage) => {
+  const filePath = path.join(__dirname, pathToImage);
+
+  return (ctx, sx, sy) => {
+    const image = new Image();
+    const binary = fs.readFileSync(filePath);
+
+    image.onload = () => ctx.drawImage(image, sx, sy);
+    image.src = binary;
+  };
+};
+
 function getTextWidth(text) {
   const canvas = createCanvas();
   const ctx = canvas.getContext("2d");
@@ -30,4 +42,6 @@ module.exports = {
   GREY_RECT,
   GREEN_RECT,
   NAVIGATION_TYPES,
+  nextImg: getImage("static/next.png"),
+  prevImg: getImage("static/previous.png"),
 };
