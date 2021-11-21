@@ -5,13 +5,8 @@ const fastify = require("fastify")({
 });
 
 const { leaderboard, main } = require("./router");
-const { fastifySchedulePlugin } = require("fastify-schedule");
 
 // plugin
-fastify.register(require("fastify-compress"));
-fastify.register(require("fastify-cors"), require("./config/cors"));
-fastify.register(require("fastify-swagger"), require("./config/swagger"));
-fastify.register(fastifySchedulePlugin);
 fastify.register(require("fastify-autoload"), {
   dir: path.join(__dirname, "plugin"),
 });
