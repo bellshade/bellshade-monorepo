@@ -137,7 +137,7 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
             });
           } else {
             // other error
-            fastify.APIerrorHandler(req, res)(error);
+            fastify.APIerrorHandler(req, reply)(error);
           }
         });
     }
