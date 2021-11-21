@@ -3,7 +3,7 @@ const moment = require("moment");
 
 const {
   scheduler: { onSuccess, onError },
-} = require("../discord/messageBuilder");
+} = require("../discord");
 
 const {
   getAllMembersInfo,
@@ -14,7 +14,7 @@ const {
 
 const getTime = () => moment.utc();
 
-const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../config/constant");
+const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../config/constant");
 const runImmediately = true;
 
 const init = (fastify) => {
@@ -34,10 +34,8 @@ const init = (fastify) => {
     onError(err, time);
   };
 
-  const {
-    PR: PullRequestLeaderboard,
-    CONTRIB: ContributionLeaderboard,
-  } = getLeaderboard(cache);
+  const { PR: PullRequestLeaderboard, CONTRIB: ContributionLeaderboard } =
+    getLeaderboard(cache);
 
   const getMembers = (() => {
     const task = new AsyncTask(

@@ -1,5 +1,5 @@
 const fp = require("fastify-plugin");
-const _jobs = require("../task/jobs");
+const { _jobs } = require("../misc");
 
 module.exports = fp((fastify, opts, done) => {
   const jobs = _jobs(fastify);

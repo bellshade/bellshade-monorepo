@@ -1,4 +1,4 @@
-const { getLeaderboard } = require("../../github");
+const { getLeaderboard } = require("../../misc").github;
 const { contribution, pullRequests } = require("./opts");
 
 const leaderboard = (cachePreHandler) => (fastify, opts, done) => {

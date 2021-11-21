@@ -1,7 +1,7 @@
 const fp = require("fastify-plugin");
 const {
   request: { onError },
-} = require("../discord/messageBuilder");
+} = require("../misc").discord;
 
 module.exports = fp((fastify, opts, done) => {
   fastify.decorate("APIerrorHandler", (request, reply) => (error) => {
