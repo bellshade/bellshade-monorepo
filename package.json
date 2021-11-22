@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Repositori untuk server dari web organisasi bellshade",
   "main": "server.js",
-  "engines": {
-    "node": "14.x"
-  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon --ignore misc/discord/tmp server.js",
@@ -15,7 +12,9 @@
   "author": "bellshade",
   "license": "ISC",
   "dependencies": {
+    "@fontsource/poppins": "^4.5.0",
     "@octokit/rest": "^18.10.0",
+    "canvas": "^2.8.0",
     "discord-webhook-node": "^1.1.8",
     "fastify": "^3.22.0",
     "fastify-autoload": "^3.9.0",
