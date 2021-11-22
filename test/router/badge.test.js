@@ -46,5 +46,6 @@ describe("'/badge' test bed", () => {
     expect(response.headers["content-type"]).toBe("image/png");
     expect(isBinary(null, response.body)).toBeTruthy();
     expect(isText(null, response.body)).not.toBeTruthy();
+    expect(getEncoding(response.body)).toBe("binary");
   });
 });
