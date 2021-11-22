@@ -2,7 +2,7 @@ const Ajv = require("ajv");
 const Fastify = require("fastify");
 const fp = require("fastify-plugin");
 
-const { main, leaderboard } = require("../router");
+const { main, leaderboard, badge } = require("../router");
 
 const forRegister = fp((fastify, opts, done) => {
   const cachePreHandler = require("../common/cachePreHandler")(fastify);
@@ -12,6 +12,7 @@ const forRegister = fp((fastify, opts, done) => {
 
   fastify.register(main(cachePreHandler));
   fastify.register(leaderboard(cachePreHandler), { prefix: "/leaderboard" });
+  fastify.register(badge, { prefix: "/badge" });
 
   done();
 });
