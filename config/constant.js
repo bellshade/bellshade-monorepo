@@ -12,6 +12,9 @@ const GITHUB_CACHE_KEY = {
     contribution: "gh_bellshade_lbrd_contrib",
   },
   prInfo: (username) => `pr_info_user:${username}`,
+  badge: {
+    navigation: (type, text) => `badge:navigation:${type}:${text}`,
+  },
 };
 
 // Expiry times (in hour scale)
@@ -21,6 +24,7 @@ const EXPIRY_TTL = {
   repos: HOUR * 15,
   contributors: contributorsAndLeaderboard,
   leaderboard: contributorsAndLeaderboard,
+  badge: HOUR * 24 * 10, // 10 Days
 };
 
 module.exports = { GITHUB_CACHE_KEY, EXPIRY_TTL };
