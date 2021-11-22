@@ -1,3 +1,4 @@
+const Ajv = require("ajv");
 const Fastify = require("fastify");
 const fp = require("fastify-plugin");
 
@@ -28,4 +29,27 @@ function build() {
   return app;
 }
 
-module.exports = build;
+const isObject = (obj) =>
+  Object.prototype.toString.call(obj) === "[object Object]";
+
+const ajv = new Ajv({
+  removeAdditional: true,
+  useDefaults: true,
+  coerceTypes: true,
+  nullable: true,
+});
+
+const _testBuilder = (app) => (url, schema) => async () => {
+  const response = await app.inject({ method: "GET", url });
+  const parsed = JSON.parse(response.body);
+
+  const isArrayOfObject =
+    Array.isArray(parsed) && parsed.map(isObject).every((e) => e === true);
+  const valid = ajv.validate(schema, parsed);
+
+  expect(response.statusCode).toBe(200);
+  expect(isArrayOfObject).toBeTruthy();
+  expect(valid).toBeTruthy();
+};
+
+module.exports = { build, ajv, _testBuilder };
