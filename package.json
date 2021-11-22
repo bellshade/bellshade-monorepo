@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "engines": {
-    "node": "14.x"
-  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon --ignore discord/tmp server.js"
