@@ -1,3 +1,6 @@
 node_modules/
 .env
-discord/tmp/
+misc/discord/tmp/
+
+package-lock.json
+yarn.lock

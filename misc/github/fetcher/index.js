@@ -1,4 +1,4 @@
-const octokit = require("../../helpers/octokit");
+const { octokit } = require("../../helpers");
 
 const hasNextPage = require("./hasNextPage");
 const getNextPage = require("./getNextPage");
@@ -12,25 +12,27 @@ const getUser = (username) =>
   octokit.users.getByUsername({ username }).then(({ data }) => data);
 
 const searchPRs = (query) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const prs = await octokit.search.issuesAndPullRequests({
-        q: query,
-        per_page: 100,
-      });
+  new Promise((resolve, reject) => {
+    (async () => {
+      try {
+        const prs = await octokit.search.issuesAndPullRequests({
+          q: query,
+          per_page: 100,
+        });
 
-      if (prs) {
-        const prsData = prs.data.items;
-        if (hasNextPage(prs)) {
-          const data = await getNextPage(prs, prsData);
-          resolve(data);
+        if (prs) {
+          const prsData = prs.data.items;
+          if (hasNextPage(prs)) {
+            const data = await getNextPage(prs, prsData);
+            resolve(data);
+          }
+
+          resolve(prsData);
         }
-
-        resolve(prsData);
+      } catch (error) {
+        reject(error);
       }
-    } catch (error) {
-      reject(error);
-    }
+    })();
   });
 
 const getRepoContributors = (repo) =>

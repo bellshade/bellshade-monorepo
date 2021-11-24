@@ -1,5 +1,5 @@
 const { MessageBuilder } = require("discord-webhook-node");
-const hook = require("../../helpers/hook");
+const { hook } = require("../../helpers");
 const { MENTION_DISCORD_USER_ID, tmpPath } = require("../config");
 
 const fs = require("fs");

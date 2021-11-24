@@ -5,7 +5,7 @@ const {
   getUserOrgValidContribution,
   getOrgContributors,
   getAllReposWithInfo,
-} = require("../../github");
+} = require("../../misc").github;
 const { members, repos, contributors, prCheck } = require("./opts");
 
 const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
@@ -137,7 +137,7 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
             });
           } else {
             // other error
-            fastify.APIerrorHandler(req, res)(error);
+            fastify.APIerrorHandler(req, reply)(error);
           }
         });
     }

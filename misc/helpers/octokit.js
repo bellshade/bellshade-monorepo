@@ -1,5 +1,3 @@
-if (process.env.NODE_ENV !== "production") require("dotenv").config();
-
 const { Octokit } = require("@octokit/rest");
 
 const githubApiWrapper = (auth) => {
