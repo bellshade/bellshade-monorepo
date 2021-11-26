@@ -1,4 +1,4 @@
-const { isText, isBinary, getEncoding } = require("istextorbinary");
+const isSvg = require("is-svg");
 const { build } = require("../helper");
 
 const app = build();
@@ -43,9 +43,7 @@ describe("'/badge' test bed", () => {
       },
     });
 
-    expect(response.headers["content-type"]).toBe("image/png");
-    expect(isBinary(null, response.body)).toBeTruthy();
-    expect(isText(null, response.body)).not.toBeTruthy();
-    expect(getEncoding(response.body)).toBe("binary");
+    expect(response.headers["content-type"]).toBe("image/svg+xml");
+    expect(isSvg(response.body)).toBeTruthy();
   });
 });

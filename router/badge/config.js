@@ -18,7 +18,8 @@ const nextImg = getImage("static/next.png");
 const prevImg = getImage("static/previous.png");
 
 const drawer = (text, type = "next") => {
-  if (!NAVIGATION_TYPES.includes(type)) throw new Error("Invalid type");
+  if (!text || text === "") throw new Error("Text is Required");
+  if (!NAVIGATION_TYPES.includes(type)) throw new Error("Invalid Type");
 
   const doc = new DOMParser().parseFromString(
     makeBadge({
@@ -60,13 +61,14 @@ const drawer = (text, type = "next") => {
   secG.removeChild(secG.getElementsByTagNameNS(NS, "text")[1]);
 
   switch (type) {
-    case "next":
+    case "next": {
       image.setAttributeNS(NS, "x", (8.9 / 10) * parentAttr.width);
 
       secG.appendChild(image);
 
       break;
-    case "previous":
+    }
+    case "previous": {
       image.setAttributeNS(NS, "x", (1 / 22) * parentAttr.width);
 
       const [firstRectCloned, secRectCloned] = Object.entries(
@@ -101,6 +103,7 @@ const drawer = (text, type = "next") => {
       labelText.setAttributeNS(NS, "x", (11.5 / 20) * 10 * parentAttr.width);
 
       break;
+    }
   }
 
   return doc.toString();
@@ -109,4 +112,6 @@ const drawer = (text, type = "next") => {
 module.exports = {
   NAVIGATION_TYPES,
   drawer,
+  nextImg,
+  prevImg,
 };

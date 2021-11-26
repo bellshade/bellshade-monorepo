@@ -10,7 +10,6 @@
     "lint": "eslint {common,config,misc,plugin,router,test}/**/*.js *.js"
   },
   "author": "bellshade",
-  "license": "ISC",
   "dependencies": {
     "@octokit/rest": "^18.10.0",
     "@xmldom/xmldom": "^0.7.5",
@@ -33,7 +32,7 @@
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^25.2.4",
-    "istextorbinary": "^6.0.0",
+    "is-svg": "^4.3.2",
     "jest": "^27.3.1",
     "nodemon": "^2.0.12",
     "prettier": "^2.4.1"
