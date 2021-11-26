@@ -12,9 +12,9 @@
   "author": "bellshade",
   "license": "ISC",
   "dependencies": {
-    "@fontsource/poppins": "^4.5.0",
     "@octokit/rest": "^18.10.0",
-    "canvas": "^2.8.0",
+    "@xmldom/xmldom": "^0.7.5",
+    "badge-maker": "^3.3.1",
     "discord-webhook-node": "^1.1.8",
     "fastify": "^3.22.0",
     "fastify-autoload": "^3.9.0",

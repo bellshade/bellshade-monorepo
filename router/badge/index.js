@@ -1,13 +1,4 @@
-const {
-  createCanvas,
-  getTextWidth,
-  prevImg,
-  nextImg,
-  DEFAULT_FONT,
-  GREY_RECT,
-  GREEN_RECT,
-  NAVIGATION_TYPES,
-} = require("./config");
+const { NAVIGATION_TYPES, drawer } = require("./config");
 const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../config/constant");
 
 const badge = (fastify, opts, done) => {
@@ -51,7 +42,7 @@ const badge = (fastify, opts, done) => {
         const dataCache = fastify.cache.get(key);
 
         if (dataCache)
-          reply.header("Content-Type", "image/png").send(dataCache);
+          reply.header("Content-Type", "image/svg+xml").send(dataCache);
 
         done();
       },
@@ -62,54 +53,10 @@ const badge = (fastify, opts, done) => {
 
       const key = GITHUB_CACHE_KEY.badge.navigation(type, text);
 
-      // Init canvas
-      const greyRectWidth = getTextWidth(text);
-      const canvas = createCanvas(greyRectWidth + 25, 37);
-      const ctx = canvas.getContext("2d");
+      const result = drawer(text, type);
 
-      switch (req.query.badgeType) {
-        case "next":
-          // Grey Rectangle
-          ctx.fillStyle = GREY_RECT;
-          ctx.fillRect(0, 0, greyRectWidth, 37);
-
-          // Green Rectangle
-          ctx.fillStyle = GREEN_RECT;
-          ctx.fillRect(greyRectWidth - 10, 0, 37, 37);
-
-          // fill text from query string
-          ctx.font = DEFAULT_FONT;
-          ctx.fillStyle = "#ffffff";
-          ctx.fillText(text, 10, canvas.height / 2 + 5);
-
-          // Draw next image to canvas
-          nextImg(ctx, (9.89 / 10) * greyRectWidth, canvas.height * (2 / 10));
-
-          break;
-        case "previous":
-          // Grey Rectangle
-          ctx.fillStyle = GREY_RECT;
-          ctx.fillRect(37, 0, greyRectWidth, 37);
-
-          // Green Rectangle
-          ctx.fillStyle = GREEN_RECT;
-          ctx.fillRect(0, 0, 37, 37);
-
-          // fill text from query string
-          ctx.font = DEFAULT_FONT;
-          ctx.fillStyle = "#ffffff";
-          ctx.fillText(text, 47, canvas.height / 2 + 5);
-
-          // Draw previous image to canvas
-          prevImg(ctx, (1 / 32) * canvas.width, canvas.height * (2 / 10));
-
-          break;
-      }
-
-      const buffer = canvas.toBuffer("image/png");
-      reply.header("Content-Type", "image/png").send(buffer);
-
-      fastify.cache.set(key, buffer, EXPIRY_TTL.badge);
+      reply.header("Content-Type", "image/svg+xml").send(result);
+      fastify.cache.set(key, result, EXPIRY_TTL.badge);
     }
   );
 
