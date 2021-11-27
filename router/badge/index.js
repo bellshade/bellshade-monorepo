@@ -26,17 +26,27 @@ const badge = (fastify, opts, done) => {
         const type = req.query.badgeType;
         const text = req.query.text;
 
+        if (!type || !text)
+          reply.code(400).send({
+            message: 'Diperlukan parameter "badgeType" dan "text"',
+          });
+
+        if (type === "")
+          reply
+            .code(400)
+            .send({ message: "Parameter badgeType tidak boleh kosong !" });
+
+        if (text === "")
+          reply
+            .code(400)
+            .send({ message: "Parameter text tidak boleh kosong !" });
+
         if (!NAVIGATION_TYPES.includes(type))
           reply.code(400).send({
             message: `Parameter "badgeType" tidak valid, diharapkan ${NAVIGATION_TYPES.map(
               (e) => `"${e}"`
             ).join(" atau ")}.`,
           });
-
-        if (text === null || text === undefined || text === "")
-          reply
-            .code(400)
-            .send({ message: "Paramter text tidak boleh kosong !" });
 
         const key = GITHUB_CACHE_KEY.badge.navigation(type, text);
         const dataCache = fastify.cache.get(key);
