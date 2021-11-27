@@ -2,6 +2,8 @@ const isSvg = require("is-svg");
 const { build } = require("../helper");
 
 const app = build();
+const { GITHUB_CACHE_KEY: cacheKey } = require("../../config/constant");
+const { nextImg } = require("../../router/badge/config");
 
 const navigationUrl = "/badge/navigation";
 
@@ -35,15 +37,26 @@ describe("'/badge' test bed", () => {
   });
 
   test("'/navigation' with all query parameter, should be passed", async () => {
+    const query = {
+      badgeType: "next",
+      text: "Hello World",
+    };
+
     const response = await app.inject({
       url: navigationUrl,
-      query: {
-        badgeType: "next",
-        text: "Hello World",
-      },
+      query,
     });
 
+    const result = response.body;
+    const dataCache = app.cache.get(
+      cacheKey.badge.navigation(query.badgeType, query.text)
+    );
+
     expect(response.headers["content-type"]).toBe("image/svg+xml");
-    expect(isSvg(response.body)).toBeTruthy();
+    expect(isSvg(result)).toBeTruthy();
+    expect(result).toEqual(dataCache);
+
+    expect(result.includes(query.text.toUpperCase())).toBeTruthy();
+    expect(result.includes(nextImg)).toBeTruthy();
   });
 });

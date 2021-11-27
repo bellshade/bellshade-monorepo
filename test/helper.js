@@ -40,17 +40,19 @@ const ajv = new Ajv({
   nullable: true,
 });
 
-const _testBuilder = (app) => (url, schema) => async () => {
+const _testBuilder = (app) => (url, schema, cacheKey) => async () => {
   const response = await app.inject({ method: "GET", url });
   const parsed = JSON.parse(response.body);
 
   const isArrayOfObject =
     Array.isArray(parsed) && parsed.map(isObject).every((e) => e === true);
   const valid = ajv.validate(schema, parsed);
+  const dataCache = app.cache.get(cacheKey);
 
   expect(response.statusCode).toBe(200);
   expect(isArrayOfObject).toBeTruthy();
   expect(valid).toBeTruthy();
+  expect(dataCache).toEqual(parsed);
 };
 
 module.exports = { build, ajv, _testBuilder };

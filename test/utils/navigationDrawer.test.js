@@ -24,6 +24,7 @@ describe("SVG Drawer function test bed", () => {
   it("will be running on default type mode", () => {
     const result = drawer(text);
 
+    expect(isSvg(result)).toBeTruthy();
     expect(result.includes(text.toUpperCase())).toBeTruthy();
     expect(result.includes(nextImg)).toBeTruthy();
   });
@@ -31,6 +32,7 @@ describe("SVG Drawer function test bed", () => {
   it("will be running on previous type mode", () => {
     const result = drawer(text, "previous");
 
+    expect(isSvg(result)).toBeTruthy();
     expect(result.includes(text.toUpperCase())).toBeTruthy();
     expect(result.includes(prevImg)).toBeTruthy();
   });
