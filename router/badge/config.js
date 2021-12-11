@@ -1,11 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-// const poppins = path.dirname(require.resolve("@fontsource/poppins"));
 const { createCanvas, Image } = require("canvas");
-
-// const allRegularFont = path.join(poppins, "files/poppins-all-400-normal.woff");
-// registerFont(allRegularFont, { family: "Poppins" });
 
 const DEFAULT_FONT = "18px Poppins";
 const GREY_RECT = "#555555";
