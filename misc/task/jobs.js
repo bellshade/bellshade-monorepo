@@ -142,7 +142,7 @@ const init = (fastify) => {
 
   const learningResourceContents = (() => {
     const task = new AsyncTask(
-      "Get Pull Request Leaderboard",
+      "Get Structure and Files Content",
       () =>
         getStructureAndFilesContent().then((data) => {
           const message =
