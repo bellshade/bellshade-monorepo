@@ -10,6 +10,7 @@ const {
   getAllReposWithInfo,
   getOrgContributors,
   getLeaderboard,
+  getStructureAndFilesContent,
 } = require("../github");
 
 const getTime = () => moment.utc();
@@ -139,7 +140,35 @@ const init = (fastify) => {
     );
   })();
 
-  return [getMembers, getRepos, orgContributors, PRLeaderboard];
+  const learningResourceContents = (() => {
+    const task = new AsyncTask(
+      "Get Pull Request Leaderboard",
+      () =>
+        getStructureAndFilesContent().then((data) => {
+          const message =
+            "[SCHEDULER] Get Structure and Files Content [SUCCESS]";
+
+          cache.set(GITHUB_CACHE_KEY.learning, data, EXPIRY_TTL.learning);
+
+          fastify.log.info(message);
+          onSuccess(message, getTime(), EXPIRY_TTL.learning);
+        }),
+      commonErrorHandler
+    );
+
+    return new SimpleIntervalJob(
+      { seconds: EXPIRY_TTL.learning, runImmediately },
+      task
+    );
+  })();
+
+  return [
+    getMembers,
+    getRepos,
+    orgContributors,
+    PRLeaderboard,
+    learningResourceContents,
+  ];
 };
 
 module.exports = init;

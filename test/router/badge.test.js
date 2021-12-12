@@ -3,9 +3,6 @@ const { build } = require("../helper");
 
 const app = build();
 
-const { GITHUB_CACHE_KEY: cacheKey } = require("../../config/constant");
-const { nextImg } = require("../../router/badge/config");
-
 const navigationUrl = "/badge/navigation";
 
 describe("'/badge/navigation' test bed", () => {

@@ -15,6 +15,7 @@ const GITHUB_CACHE_KEY = {
   badge: {
     navigation: (type, text) => `badge:navigation:${type}:${text}`,
   },
+  learning: "gh_bellshade_learning_maindata",
 };
 
 // Expiry times (in hour scale)
@@ -25,6 +26,7 @@ const EXPIRY_TTL = {
   contributors: contributorsAndLeaderboard,
   leaderboard: contributorsAndLeaderboard,
   badge: HOUR * 24 * 10, // 10 Days
+  learning: HOUR * 24 * 2, // 2 Days
 };
 
 module.exports = { GITHUB_CACHE_KEY, EXPIRY_TTL };
