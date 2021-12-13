@@ -3,9 +3,11 @@ const { octokit } = require("../../helpers");
 const hasNextPage = require("./hasNextPage");
 const getNextPage = require("./getNextPage");
 
+const owner = "bellshade";
+
 const getMembers = () =>
   octokit.orgs
-    .listPublicMembers({ org: "bellshade", per_page: 100 })
+    .listPublicMembers({ org: owner, per_page: 100 })
     .then(({ data }) => data);
 
 const getUser = (username) =>
@@ -38,7 +40,7 @@ const searchPRs = (query) =>
 const getRepoContributors = (repo) =>
   octokit.repos
     .listContributors({
-      owner: "bellshade",
+      owner,
       repo,
       per_page: 100,
     })
@@ -47,17 +49,37 @@ const getRepoContributors = (repo) =>
 const getOrgRepos = () =>
   octokit.repos
     .listForOrg({
-      org: "bellshade",
+      org: owner,
       sort: "created",
       direction: "asc",
       type: "public",
     })
     .then(({ data }) => data);
 
+const getRepoCommits = (repo) =>
+  octokit.repos
+    .listCommits({
+      owner,
+      repo,
+    })
+    .then(({ data }) => data);
+
+const getTree = (repo, tree_sha) =>
+  octokit.git
+    .getTree({
+      owner,
+      repo,
+      tree_sha,
+      recursive: true,
+    })
+    .then(({ data }) => data);
+
 module.exports = {
   getMembers,
   getUser,
+  getTree,
   searchPRs,
   getOrgRepos,
+  getRepoCommits,
   getRepoContributors,
 };

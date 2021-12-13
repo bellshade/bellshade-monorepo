@@ -3,16 +3,23 @@ const { build, ajv, _testBuilder } = require("../helper");
 const app = build();
 
 const schema = require("../../router/main/opts");
+const { GITHUB_CACHE_KEY: cacheKey } = require("../../config/constant");
 
 describe("Non dynamic route, should be passed without any problem", () => {
   const testBy = _testBuilder(app);
 
   /* eslint-disable jest/expect-expect */
-  test("Get bellshade public members", testBy("/", schema.members));
-  test("Get bellshade all public repos", testBy("/repos", schema.repos));
+  test(
+    "Get bellshade public members",
+    testBy("/", schema.members, cacheKey.members)
+  );
+  test(
+    "Get bellshade all public repos",
+    testBy("/repos", schema.repos, cacheKey.repos)
+  );
   test("Get bellshade all public repos contributors", async () => {
     jest.setTimeout(30000);
-    await testBy("/contributors", schema.contributors);
+    await testBy("/contributors", schema.contributors, cacheKey.contributors);
   });
   /* eslint-enable jest/expect-expect */
 });
@@ -54,8 +61,10 @@ describe("Dynamic route, it will be check thruthiness and status code", () => {
     });
     const parsed = JSON.parse(response.body);
     const valid = ajv.validate(schema.prCheck, parsed);
+    const dataCache = app.cache.get(cacheKey.prInfo("reacto11mecha"));
 
     expect(response.statusCode).toBe(200);
     expect(valid).toBeTruthy();
+    expect(parsed).toEqual(dataCache);
   });
 });

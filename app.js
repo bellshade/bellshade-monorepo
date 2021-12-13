@@ -4,7 +4,7 @@ const fastify = require("fastify")({
   logger: process.env.NODE_ENV !== "production" ? true : "info", // info only when prod
 });
 
-const { leaderboard, main, badge } = require("./router");
+const { leaderboard, main, badge, learning } = require("./router");
 
 // plugin
 fastify.register(require("fastify-autoload"), {
@@ -18,6 +18,9 @@ fastify.register(main(cachePreHandler));
 fastify.register(leaderboard(cachePreHandler), { prefix: "/leaderboard" });
 fastify.register(badge, {
   prefix: "/badge",
+});
+fastify.register(learning, {
+  prefix: "/learning",
 });
 
 module.exports = fastify;

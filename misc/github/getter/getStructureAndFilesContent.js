@@ -1,0 +1,54 @@
+const { reposPath } = require("../config");
+const { getTree, getRepoCommits } = require("../fetcher");
+const { octokit } = require("../../helpers");
+
+const getStructureAndFilesContent = () =>
+  Promise.all(
+    reposPath.map(async (repoData) => {
+      const commits = await getRepoCommits(repoData.repo);
+      const gitTree = await getTree(repoData.repo, commits[0].sha);
+
+      const tree = gitTree.tree.filter(
+        ({ path }) =>
+          path.startsWith(repoData.materi.basic) ||
+          path.startsWith(repoData.materi.algorithm)
+      );
+
+      const contents = await Promise.all(
+        tree
+          .filter(({ type }) => type === "blob")
+          .map(async (fileData) => {
+            const file = await octokit.request(fileData.url);
+            const content = Buffer.from(file.data.content, file.data.encoding);
+
+            return {
+              path: fileData.path,
+              content,
+            };
+          })
+      );
+
+      const data = tree.map((data) => {
+        const content = contents.find(({ path }) => path === data.path);
+
+        if (!content)
+          return {
+            path: data.path,
+            type: "directory",
+          };
+
+        return {
+          path: data.path,
+          type: "file",
+          content: content.content,
+        };
+      });
+
+      return {
+        data,
+        repo: repoData.repo,
+      };
+    })
+  );
+
+module.exports = getStructureAndFilesContent;

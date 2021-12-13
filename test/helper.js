@@ -2,7 +2,7 @@ const Ajv = require("ajv");
 const Fastify = require("fastify");
 const fp = require("fastify-plugin");
 
-const { main, leaderboard, badge } = require("../router");
+const { main, leaderboard, badge, learning } = require("../router");
 
 const forRegister = fp((fastify, opts, done) => {
   const cachePreHandler = require("../common/cachePreHandler")(fastify);
@@ -13,6 +13,7 @@ const forRegister = fp((fastify, opts, done) => {
   fastify.register(main(cachePreHandler));
   fastify.register(leaderboard(cachePreHandler), { prefix: "/leaderboard" });
   fastify.register(badge, { prefix: "/badge" });
+  fastify.register(learning, { prefix: "/learning" });
 
   done();
 });
@@ -40,17 +41,19 @@ const ajv = new Ajv({
   nullable: true,
 });
 
-const _testBuilder = (app) => (url, schema) => async () => {
+const _testBuilder = (app) => (url, schema, cacheKey) => async () => {
   const response = await app.inject({ method: "GET", url });
   const parsed = JSON.parse(response.body);
 
   const isArrayOfObject =
     Array.isArray(parsed) && parsed.map(isObject).every((e) => e === true);
   const valid = ajv.validate(schema, parsed);
+  const dataCache = app.cache.get(cacheKey);
 
   expect(response.statusCode).toBe(200);
   expect(isArrayOfObject).toBeTruthy();
   expect(valid).toBeTruthy();
+  expect(dataCache).toEqual(parsed);
 };
 
 module.exports = { build, ajv, _testBuilder };
