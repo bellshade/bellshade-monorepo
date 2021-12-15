@@ -2,10 +2,9 @@ const mimeTypes = require("mime-types");
 
 const { reposPath } = require("../../misc/github/config");
 const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../config/constant");
-const { guide, tree, errorData } = require("./opts");
+const { tree, errorData } = require("./opts");
 
 const { github } = require("../../misc");
-const repoAOb = reposPath.map(({ repo }) => ({ repo })); // AOb => Array of Object
 const repoNamesOnly = reposPath.map(({ repo }) => repo);
 
 const key = GITHUB_CACHE_KEY.learning;
@@ -28,12 +27,9 @@ const learning = (fastify, opts, done) => {
       schema: {
         description:
           "Panduan data untuk memudahkan static site generator untuk mendapatkan arahan mengambil file mana saja yang diperlukan.",
-        response: {
-          200: guide,
-        },
       },
     },
-    (req, reply) => reply.send(repoAOb)
+    (req, reply) => reply.send(reposPath)
   );
 
   fastify.get(

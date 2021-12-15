@@ -8,10 +8,9 @@ test("'/learning/guide' test bed, should be passed", async () => {
     url: "/learning/guide",
   });
   const parsed = JSON.parse(response.body);
-  const repoAOb = reposPath.map(({ repo }) => ({ repo }));
 
   expect(response.statusCode).toBe(200);
-  expect(parsed).toEqual(repoAOb);
+  expect(parsed).toEqual(reposPath);
 });
 
 describe("Logical test for parameter and query string", () => {

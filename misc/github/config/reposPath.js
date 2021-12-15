@@ -50,4 +50,11 @@ module.exports = [
       algorithm: "TypeScriptExample",
     },
   },
+  {
+    repo: "HTML-CSS",
+    materi: {
+      html: "HTML",
+      css: "CSS",
+    },
+  },
 ];

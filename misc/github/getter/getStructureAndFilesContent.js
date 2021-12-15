@@ -8,10 +8,10 @@ const getStructureAndFilesContent = () =>
       const commits = await getRepoCommits(repoData.repo);
       const gitTree = await getTree(repoData.repo, commits[0].sha);
 
-      const tree = gitTree.tree.filter(
-        ({ path }) =>
-          path.startsWith(repoData.materi.basic) ||
-          path.startsWith(repoData.materi.algorithm)
+      const tests = Object.values(repoData.materi);
+
+      const tree = gitTree.tree.filter(({ path }) =>
+        tests.some((test) => path.startsWith(test))
       );
 
       const contents = await Promise.all(

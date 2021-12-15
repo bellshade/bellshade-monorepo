@@ -1,13 +1,3 @@
-const guide = {
-  type: "array",
-  items: {
-    type: "object",
-    properties: {
-      repo: { type: "string" },
-    },
-  },
-};
-
 const tree = {
   type: "array",
   items: {
@@ -26,4 +16,4 @@ const errorData = {
   },
 };
 
-module.exports = { guide, tree, errorData };
+module.exports = { tree, errorData };
