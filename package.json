@@ -7,7 +7,8 @@
     "start": "node server.js",
     "dev": "nodemon --ignore misc/discord/tmp server.js",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepare": "husky install"
   },
   "author": "bellshade",
   "dependencies": {
@@ -27,13 +28,21 @@
     "toad-scheduler": "^1.5.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.0.0",
+    "@commitlint/config-conventional": "^16.0.0",
     "dotenv": "^10.0.0",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^25.2.4",
+    "husky": "^7.0.4",
     "istextorbinary": "^6.0.0",
     "jest": "^27.3.1",
+    "lint-staged": "^12.1.4",
     "nodemon": "^2.0.12",
     "prettier": "^2.4.1"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }
