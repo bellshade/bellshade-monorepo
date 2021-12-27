@@ -4,3 +4,5 @@ misc/discord/tmp/
 
 package-lock.json
 yarn.lock
+
+.eslintcache
