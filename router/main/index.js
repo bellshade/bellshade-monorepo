@@ -128,8 +128,9 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
           reply.send(data);
         })
         .catch((error) => {
+          console.log(error);
           // github user not found
-          if (error.response.status === 422) {
+          if (error?.response?.status === 422) {
             reply.code(404).send({
               message: `Username github '${username}' tidak ditemukan!`,
               error: "Not Found",
