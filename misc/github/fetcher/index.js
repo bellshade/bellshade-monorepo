@@ -56,14 +56,6 @@ const getOrgRepos = () =>
     })
     .then(({ data }) => data);
 
-const getRepoCommits = (repo) =>
-  octokit.repos
-    .listCommits({
-      owner,
-      repo,
-    })
-    .then(({ data }) => data);
-
 const getTree = (repo, tree_sha) =>
   octokit.git
     .getTree({
@@ -80,6 +72,5 @@ module.exports = {
   getTree,
   searchPRs,
   getOrgRepos,
-  getRepoCommits,
   getRepoContributors,
 };

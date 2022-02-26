@@ -1,12 +1,11 @@
 const { reposPath } = require("../config");
-const { getTree, getRepoCommits } = require("../fetcher");
+const { getTree } = require("../fetcher");
 const { octokit } = require("../../helpers");
 
 const getStructureAndFilesContent = () =>
   Promise.all(
     reposPath.map(async (repoData) => {
-      const commits = await getRepoCommits(repoData.repo);
-      const gitTree = await getTree(repoData.repo, commits[0].sha);
+      const gitTree = await getTree(repoData.repo, "HEAD");
 
       const tests = Object.values(repoData.materi);
 
