@@ -16,7 +16,7 @@ const badge = (fastify, opts, done) => {
     {
       schema: {
         description:
-          'Membuat badge navigasi selanjutnya dan sebelumnya disertai dengan text. Menerima parameter query string text (bebas) dan badgeType, berupa "next" atau "previous"',
+          'Membuat badge navigasi selanjutnya dan sebelumnya disertai dengan text. Menerima parameter query string text (bebas) dan badgeType, berupa "next" atau "previous". Gambar dari request pertama akan expire setelah 3 minggu dari request pertama.',
         querystring: {
           text: { type: "string" },
           badgeType: { type: "string" },

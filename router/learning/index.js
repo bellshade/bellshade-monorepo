@@ -38,7 +38,7 @@ const learning = (fastify, opts, done) => {
       schema: {
         description: `Mengambil pohon direktori dari repo ${repoNamesOnly.join(
           ", "
-        )}.`,
+        )}. Data diperbarui tiap 5 hari sekali.`,
         params: {
           repo: { type: "string" },
         },
@@ -85,7 +85,7 @@ const learning = (fastify, opts, done) => {
       schema: {
         description: `Mengambil konten file dari repo ${repoNamesOnly.join(
           ", "
-        )} dengan path file yang spesifik.`,
+        )} dengan path file yang spesifik. Data diperbarui tiap 5 hari sekali.`,
         querystring: {
           path: { type: "string" },
         },
