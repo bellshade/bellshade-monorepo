@@ -16,7 +16,8 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
     "/",
     {
       schema: {
-        description: "Daftar anggota Organisasi Github Bellshade yang Public.",
+        description:
+          "Daftar anggota Organisasi Github Bellshade yang Public. Data diperbarui tiap 2 minggu sekali.",
         response: {
           200: members,
         },
@@ -38,7 +39,7 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
     {
       schema: {
         description:
-          "Daftar seluruh repositori publik yang ada di Organisasi Github Bellshade.",
+          "Daftar seluruh repositori publik yang ada di Organisasi Github Bellshade. Data diperbarui tiap satu minggu sekali.",
         response: {
           200: repos,
         },
@@ -60,7 +61,7 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
     {
       schema: {
         description:
-          "Daftar seluruh kontributor yang sudah berkontribusi ke Organisasi Github Bellshade.",
+          "Daftar seluruh kontributor yang sudah berkontribusi ke Organisasi Github Bellshade. Data diperbarui tiap 5 hari sekali.",
         response: {
           200: contributors,
         },
@@ -87,7 +88,7 @@ const routerContainer = (cachePreHandler) => (fastify, opts, done) => {
     {
       schema: {
         description:
-          "Endpoint yang digunakan untuk mengecek pull request yang sudah di merge ke bellshade. Diperlukan sebuah username github sebagai parameternya.",
+          "Endpoint yang digunakan untuk mengecek pull request yang sudah di merge ke bellshade. Diperlukan sebuah username github sebagai parameternya. Data akan expire setelah 5 jam dari request pertama.",
         params: {
           type: "object",
           properties: {
