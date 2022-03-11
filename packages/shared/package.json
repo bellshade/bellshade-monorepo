@@ -1,0 +1,25 @@
+{
+  "name": "@bellshade/shared",
+  "version": "1.0.0",
+  "description": "Package untuk keperluan konfigurasi yang sifatnya perlu di bagikan ke berbagai repositori",
+  "author": "bellshade",
+  "homepage": "https://github.com/bellshade/bellshade-server/tree/main/packages/shared",
+  "main": "lib/shared.js",
+  "types": "index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bellshade/bellshade-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bellshade/bellshade-server/issues"
+  }
+}
