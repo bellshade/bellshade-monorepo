@@ -8,7 +8,9 @@ const {
   GREEN_RECT,
   NAVIGATION_TYPES,
 } = require("./config");
-const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../config/constant");
+const {
+  constant: { GITHUB_CACHE_KEY, EXPIRY_TTL },
+} = require("@bellshade/shared");
 
 const badge = (fastify, opts, done) => {
   fastify.get(

@@ -3,7 +3,9 @@ const { getUser, searchPRs } = require("../fetcher");
 const { leaderboardQuery } = require("../config").query;
 const getOrgContributors = require("./getOrgContributors");
 
-const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../../config/constant");
+const {
+  constant: { GITHUB_CACHE_KEY, EXPIRY_TTL },
+} = require("@bellshade/shared");
 
 const getLeaderboard = (cache) => ({
   PR: () =>

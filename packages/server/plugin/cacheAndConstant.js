@@ -1,7 +1,7 @@
 const fp = require("fastify-plugin");
 const NodeCache = require("node-cache");
 
-const constant = require("../config/constant");
+const { constant } = require("@bellshade/shared");
 
 module.exports = fp((fastify, opts, done) => {
   fastify.decorate("cache", new NodeCache());

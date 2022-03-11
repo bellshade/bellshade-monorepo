@@ -1,7 +1,9 @@
 const mimeTypes = require("mime-types");
 
 const { reposPath } = require("../../misc/github/config");
-const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../config/constant");
+const {
+  constant: { GITHUB_CACHE_KEY, EXPIRY_TTL },
+} = require("@bellshade/shared");
 const { tree, errorData } = require("./opts");
 
 const { github } = require("../../misc");

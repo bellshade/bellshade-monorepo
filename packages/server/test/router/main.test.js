@@ -3,7 +3,9 @@ const { build, ajv, _testBuilder } = require("../helper");
 const app = build();
 
 const schema = require("../../router/main/opts");
-const { GITHUB_CACHE_KEY: cacheKey } = require("../../config/constant");
+const {
+  constant: { GITHUB_CACHE_KEY: cacheKey },
+} = require("@bellshade/shared");
 
 describe("Non dynamic route, should be passed without any problem", () => {
   const testBy = _testBuilder(app);

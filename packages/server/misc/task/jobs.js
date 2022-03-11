@@ -15,7 +15,9 @@ const {
 
 const getTime = () => moment.utc();
 
-const { GITHUB_CACHE_KEY, EXPIRY_TTL } = require("../../config/constant");
+const {
+  constant: { GITHUB_CACHE_KEY, EXPIRY_TTL },
+} = require("@bellshade/shared");
 const runImmediately = true;
 
 const init = (fastify) => {
