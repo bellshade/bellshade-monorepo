@@ -4,7 +4,7 @@ Package untuk keperluan konfigurasi yang sifatnya perlu di bagikan ke berbagai r
 
 ## Penggunaan
 
-Ketika menggunakan package ini, ketika memanggilnya akan mengembalikan value. Untuk value dan typing bisa mengecek file [index.d.ts](./lib/index.d.ts).
+Ketika menggunakan package ini, ketika memanggilnya akan mengembalikan value. Untuk value dan typing bisa mengecek file [index.d.ts](./index.d.ts).
 
 Contoh penggunaan sederhana
 
