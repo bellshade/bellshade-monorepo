@@ -2,13 +2,13 @@
   "name": "@bellshade/server",
   "version": "1.0.0",
   "private": true,
-  "description": "Repositori untuk server dari web organisasi bellshade",
+  "description": "Kode untuk server dari web organisasi bellshade",
   "author": "bellshade",
-  "homepage": "https://github.com/bellshade/bellshade-server/tree/main/packages/server",
+  "homepage": "https://github.com/bellshade/bellshade-monorepo/tree/main/packages/server",
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bellshade/bellshade-server.git"
+    "url": "git+https://github.com/bellshade/bellshade-monorepo.git"
   },
   "dependencies": {
     "@bellshade/shared": "^1.0.0",
@@ -39,6 +39,6 @@
     "test": "jest"
   },
   "bugs": {
-    "url": "https://github.com/bellshade/bellshade-server/issues"
+    "url": "https://github.com/bellshade/bellshade-monorepo/issues"
   }
 }
