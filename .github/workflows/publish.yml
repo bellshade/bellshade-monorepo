@@ -1,0 +1,55 @@
+name: Github action untuk mempublish package ke npm
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+      - dev
+
+jobs:
+  publish:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    name: Publish package ke npm
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup NodeJS 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install Dependensi
+        run: |
+          npx lerna bootstrap
+          npx lerna link
+        env:
+          CI: TRUE
+
+      - name: Linting
+        run: npm run lint
+        continue-on-error: false
+
+      - name: Konfigurasi Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor}}@users.noreply.github.com"
+
+      - name: Versioning package
+        run: |
+          if [ ${{ github.base_ref }} = dev ]; then
+            npx lerna version --conventional-commits --conventional-prerelease --preid beta --yes
+          else
+            npx lerna version --conventional-commits --conventional-graduate --yes
+          fi
+
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+        run: npx lerna publish from-package --yes
