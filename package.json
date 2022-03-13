@@ -1,11 +1,12 @@
 {
-  "name": "bellshade-server",
+  "name": "bellshade-monorepo",
   "version": "1.0.0",
-  "description": "Repositori untuk server dari web organisasi bellshade",
+  "description": "Repositori monorepo untuk organisasi bellshade",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
+    "start": "lerna run start --scope=@bellshade/server --stream",
     "server:start": "lerna run start --scope=@bellshade/server --stream",
     "server:dev": "lerna run dev --scope=@bellshade/server --stream",
     "server:test": "lerna run test --scope=@bellshade/server --stream",
