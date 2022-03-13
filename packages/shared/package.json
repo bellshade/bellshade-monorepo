@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Package untuk keperluan konfigurasi yang sifatnya perlu di bagikan ke berbagai repositori",
   "author": "bellshade",
-  "homepage": "https://github.com/bellshade/bellshade-server/tree/main/packages/shared",
+  "homepage": "https://github.com/bellshade/bellshade-monorepo/tree/main/packages/shared",
   "main": "lib/shared.js",
   "types": "index.d.ts",
   "directories": {
@@ -17,9 +17,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bellshade/bellshade-server.git"
+    "url": "git+https://github.com/bellshade/bellshade-monorepo.git"
   },
   "bugs": {
-    "url": "https://github.com/bellshade/bellshade-server/issues"
+    "url": "https://github.com/bellshade/bellshade-monorepo/issues"
   }
 }
