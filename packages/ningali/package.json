@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "Penyaji materi dari folder kedalam bentuk tampilan web",
   "author": "bellshade",
-  "homepage": "https://github.com/bellshade/bellshade-server/tree/main/packages/ningali",
+  "homepage": "https://github.com/bellshade/bellshade-monorepo/tree/main/packages/ningali",
   "main": "lib/ningali.js",
   "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+    "lib": "lib"
   },
   "files": [
     "lib"
@@ -17,13 +16,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bellshade/bellshade-server.git"
-  },
-  "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "url": "git+https://github.com/bellshade/bellshade-monorepo.git"
   },
   "bugs": {
-    "url": "https://github.com/bellshade/bellshade-server/issues"
+    "url": "https://github.com/bellshade/bellshade-monorepo/issues"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.0.0",
