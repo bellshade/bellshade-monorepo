@@ -1,43 +1,21 @@
-## Bellshade Server Side
+## Bellshade Monorepo
 
-Hanya sebuah proxy untuk mengambil data ke github API.
+Selamat datang ke repositori monorepo dari organisasi bellshade. Repositori ini berisikan beberapa package yang bisa digunakan, diantaranya adalah package [`@bellshade/shared`](./packages/shared/) dan [`@bellshade/ningali`](./packages/ningali/).
 
-## Dev
+### Development
 
-### Environment Variable
+#### Instalasi
 
-Copy file `.env.sample` dan ubah namanya menjadi `.env`, isikan variabel sesuai Keterangan dibawah.
+Karena repositori ini menerapkan monorepo dengan [lerna](https://github.com/lerna/lerna) oleh karena itu untuk melakukan instalasi dengan menggunakan command dari lerna, dengan menjalankan
 
-```
-GITHUB_TOKEN_API=
-DISCORD_WEBHOOK_URL=
-MENTION_DISCORD_USER_ID=
+```sh
+npx lerna bootstrap
 ```
 
-Keterangan :
+#### Membuat Package Baru
 
-- `GITHUB_TOKEN_API` : Untuk akses yang limitnya besar, diperlukan github personal token, buatlah [disini](https://github.com/settings/tokens) dengan akses `read:org` dan `read:user`.
-- `DISCORD_WEBHOOK_URL` : Untuk kemudahan logging data error ataupun scheduler, aplikasi ini mengandalkan discord webhook. Baca [artikel ini](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) untuk lebih lengkap apa itu discord webhook dan cara mendapatkan urlnya.
-- `MENTION_DISCORD_USER_ID` : Ketika ada error di aplikasi, webhook akan mengirimkan data error dan men-tag seseorang yang menangani aplikasi ini. Baca [artikel ini](https://birdie0.github.io/discord-webhooks-guide/other/discord_markdown.html#discord-tags) dan tempelkan id nya saja (misal `1236420xxxx`).
+Ketika ingin membuat package baru, inisialiasi package baru tersebut dengan command lerna seperti contoh dibawah ini.
 
-### Install Package
-
-Install package yang diperlukan sebelum menjalankan
-
-```bash
-npm install
-```
-
-### Available Script
-
-Untuk menjalankan development server
-
-```bash
-npm run dev
-```
-
-Untuk menjalankan server biasa
-
-```bash
-npm run start
+```sh
+npx lerna create @bellshade/<nama package>
 ```

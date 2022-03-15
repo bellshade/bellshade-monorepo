@@ -1,0 +1,44 @@
+{
+  "name": "@bellshade/server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kode untuk server dari web organisasi bellshade",
+  "author": "bellshade",
+  "homepage": "https://github.com/bellshade/bellshade-monorepo/tree/main/packages/server",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bellshade/bellshade-monorepo.git"
+  },
+  "dependencies": {
+    "@bellshade/shared": "^1.0.0",
+    "@octokit/rest": "^18.10.0",
+    "canvas": "^2.8.0",
+    "discord-webhook-node": "^1.1.8",
+    "fastify": "^3.22.0",
+    "fastify-autoload": "^3.9.0",
+    "fastify-compress": "^3.6.1",
+    "fastify-cors": "^6.0.2",
+    "fastify-plugin": "^3.0.0",
+    "fastify-schedule": "^1.0.0",
+    "fastify-swagger": "^4.12.4",
+    "github-username-regex": "^1.0.0",
+    "moment": "^2.29.1",
+    "node-cache": "^5.1.2",
+    "toad-scheduler": "^1.5.0"
+  },
+  "devDependencies": {
+    "istextorbinary": "^6.0.0",
+    "nodemon": "^2.0.12",
+    "dotenv": "^10.0.0",
+    "jest": "^27.3.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon --ignore misc/discord/tmp server.js",
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/bellshade/bellshade-monorepo/issues"
+  }
+}

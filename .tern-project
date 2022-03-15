@@ -1,13 +1,8 @@
 {
   "ecmaVersion": 8,
   "libs": [],
-  "loadEagerly": [
-    "misc/**/*.js",
-    "config/*.js"
-  ],
-  "dontLoad": [
-    "node_modules/**"
-  ],
+  "loadEagerly": ["packages/**"],
+  "dontLoad": ["node_modules/**", "packages/**/node_modules/**"],
   "plugins": {
     "doc_comment": true,
     "node": {

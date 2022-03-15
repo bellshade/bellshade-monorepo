@@ -1,0 +1,42 @@
+{
+  "name": "@bellshade/ningali",
+  "version": "1.0.0",
+  "description": "Penyaji materi dari folder kedalam bentuk tampilan web",
+  "author": "bellshade",
+  "homepage": "https://github.com/bellshade/bellshade-monorepo/tree/main/packages/ningali",
+  "main": "lib/ningali.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bellshade/bellshade-monorepo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bellshade/bellshade-monorepo/issues"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.0.0",
+    "bootstrap": "^5.1.3",
+    "directory-tree": "^3.2.2",
+    "ejs": "^3.1.6",
+    "fastify": "^3.27.4",
+    "fastify-autoload": "^3.11.0",
+    "fastify-plugin": "^3.0.1",
+    "fastify-socket.io": "^3.0.0",
+    "fastify-static": "^4.5.0",
+    "github-markdown-css": "^5.1.0",
+    "marked": "^4.0.12",
+    "node-emoji": "^1.11.0",
+    "point-of-view": "^5.1.0",
+    "prismjs": "^1.27.0",
+    "socket.io": "^4.4.1",
+    "tree-to-list": "^3.0.2"
+  }
+}
