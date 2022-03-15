@@ -29,8 +29,6 @@ jobs:
         run: |
           npx lerna bootstrap
           npx lerna link
-        env:
-          CI: TRUE
 
       - name: Linting
         run: npm run lint
