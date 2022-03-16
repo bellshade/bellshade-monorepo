@@ -1,12 +1,7 @@
 node_modules/
 
-package-lock.json
-yarn.lock
-
 packages/**/.env
 packages/**/node_modules/
-packages/**/package-lock.json
-packages/**/yarn.lock
 
 packages/server/misc/discord/tmp/
 
