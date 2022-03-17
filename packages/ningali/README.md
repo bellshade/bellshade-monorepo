@@ -6,19 +6,19 @@
 
 Pertama-tama, fitur package ini bisa menampilkan readme dari semua folder dari mulai direktori root sampai ke anakannya.
 
-![Menampilkan Readme yang berada di Folder Root](./assets/readme_root.png)
+![Menampilkan Readme yang berada di Folder Root](https://raw.githubusercontent.com/bellshade/bellshade-monorepo/main/packages/ningali/assets/readme_root.png)
 
 Readme juga bisa ditampilkan di folder yang berisikan sebuah materi.
 
-![Menampilkan Readme yang berada di Folder Materi](./assets/readme_materi.png)
+![Menampilkan Readme yang berada di Folder Materi](https://raw.githubusercontent.com/bellshade/bellshade-monorepo/main/packages/ningali/assets/readme_materi.png)
 
 Kedua, materi yang berisikan kode yang bisa ditampilkan dan dijalankan bisa di eksekusi dengan menekan tombol `Run` yang nantinya akan dijalankan oleh node js di server.
 
-![Menampilkan dan Menjalankan kode dari sebuah materi](./assets/code_n_run.png)
+![Menampilkan dan Menjalankan kode dari sebuah materi](https://raw.githubusercontent.com/bellshade/bellshade-monorepo/main/packages/ningali/assets/code_n_run.png)
 
 Ketiga, ketika folder berisikan kode html otomatis akan disajikan html tersebut kedalam iframe, nilai yang keluar dari `console.log` akan ditampilkan ke console web.
 
-![Menampilkan dan Menjalankan kode dari sebuah materi yang berisikan html](./assets/materi_html.png)
+![Menampilkan dan Menjalankan kode dari sebuah materi yang berisikan html](https://raw.githubusercontent.com/bellshade/bellshade-monorepo/main/packages/ningali/assets/materi_html.png)
 
 ## Penggunaan
 
