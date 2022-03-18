@@ -6,9 +6,14 @@ const autoLoad = require("fastify-autoload");
 const constant = require("./config/constant");
 
 const app = fastify({ debug: false });
-const port = process.env.PORT || 3000;
 
-const appConstructor = ({ folders, title }) => {
+const appConstructor = (args) => {
+  const { folders, title } = args;
+  const port = args.port || process.env.PORT || 3000;
+
+  if (!folders || !title)
+    throw new Error("Properti folders dan title diperlukan!");
+
   app
     .register((fastify, opts, done) => {
       const requiredStatic = [

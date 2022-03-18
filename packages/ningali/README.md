@@ -34,15 +34,43 @@ const app = ningali({
    * untuk selanjutnya bisa disajikan. Dibawah ini
    * adalah contoh implementasi untuk Bellshade
    * Javascript
+   *
+   * Properti ini adalah properti yang wajib di isi,
+   * jika tidak di isi maka akan muncul pesan error.
    */
   folders: ["learn", "algorithm"],
 
   /* Mendefinisikan apa judul yang nantinya ingin
    * ditampilkan kedalam webnya, contohnya adalah
    * "Bellshade Javascript"
+   *
+   * Properti ini adalah properti yang wajib di isi,
+   * jika tidak di isi maka akan muncul pesan error.
    */
   title: "Bellshade Javascript",
+
+  /**
+   * Mendefinisikan dimana port yang nantinya akan
+   * digunakan oleh ningali supaya bisa diakses dari
+   * browser. Default dari nilai port adalah 3000.
+   *
+   * Properti port ini tidak wajib di isi, dan jika
+   * tidak ingin menulis port secara eksplisit bisa
+   * menggunakan library tambahan `dotenv` dan memanggilnya
+   * paling atas sebelum app di deklarasi dan membuat file
+   * env dengan konfigurasi port yang mau di isikan.
+   *
+   * Prioritas pembacaan port adalah dimulai dari port
+   * yang dimasukan sebagai konfigurasi ningali, jika tidak
+   * ada konfigurasi akan membaca environment variable PORT
+   * yang terbaca oleh node js, jika tidak ada kedua itu maka
+   * fallback ke port 3000.
+   */
+  port: 17845,
 });
+
+// Menjalankan fungsi `app` setelah konfigurasi
+app();
 ```
 
 ### Bekerja dengan HTML
