@@ -3,9 +3,15 @@ name: Build and deploy to production
 on:
   push:
     branches: [main]
+    paths:
+    - 'packages/server/**'
+    - 'packages/shared/**'
   pull_request:
     types: [closed]
     branches: [main]
+    paths:
+    - 'packages/server/**'
+    - 'packages/shared/**'
 
 jobs:
   deployment:
