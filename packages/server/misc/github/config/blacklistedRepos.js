@@ -3,5 +3,5 @@ module.exports = [
   "programmingCourse",
   "bellshadebot",
   "open-api",
-  "bellshade-server",
+  "bellshade-monorepo",
 ];
