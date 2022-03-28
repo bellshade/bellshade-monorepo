@@ -22,6 +22,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ~/bellshade/bellshade-monorepo
+            git checkout .
             git pull origin main
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
