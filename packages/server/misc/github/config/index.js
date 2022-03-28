@@ -1,4 +1,4 @@
-const blacklist = require("./blacklistedRepos");
+const blacklist = require("./blacklisted");
 const query = require("./query");
 const reposPath = require("./reposPath");
 

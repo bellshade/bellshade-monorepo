@@ -7,7 +7,7 @@ const getOrgContributors = () =>
       // eliminate blacklisted repos
       const repos = data
         .map(({ name }) => name)
-        .filter((r) => !blacklist.includes(r));
+        .filter((r) => !blacklist.repositories.includes(r));
 
       return Promise.all(
         // get all contributors
@@ -18,6 +18,7 @@ const getOrgContributors = () =>
               repo,
               contributors: allContributors
                 .filter(({ type }) => type !== "Bot") // Eliminate bot
+                .filter(({ login }) => !blacklist.users.includes(login))
                 .map((data) => ({
                   login: data.login,
                   contributions: data.contributions,

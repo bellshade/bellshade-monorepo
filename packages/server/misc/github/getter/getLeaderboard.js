@@ -1,4 +1,4 @@
-const blacklist = require("../config/blacklistedRepos");
+const blacklist = require("../config/blacklisted");
 const { getUser, searchPRs } = require("../fetcher");
 const { leaderboardQuery } = require("../config").query;
 const getOrgContributors = require("./getOrgContributors");
@@ -20,7 +20,9 @@ const getLeaderboard = (cache) => ({
             ({ repository_url }) => {
               const splitted = repository_url.split("/");
 
-              return !blacklist.includes(splitted[splitted.length - 1]);
+              return !blacklist.repositories.includes(
+                splitted[splitted.length - 1]
+              );
             }
           ),
         }))
@@ -76,7 +78,7 @@ const getLeaderboard = (cache) => ({
               contributors.map((contributor) => ({ ...contributor, repo }))
             )
             .reduce((curr, acc) => curr.concat(acc))
-            .filter(({ repo }) => !blacklist.includes(repo));
+            .filter(({ repo }) => !blacklist.repositories.includes(repo));
 
           const usernames = [
             ...new Set(remapNewData.map(({ user }) => user.name)),

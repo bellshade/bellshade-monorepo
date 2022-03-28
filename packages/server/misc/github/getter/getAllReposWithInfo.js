@@ -5,7 +5,7 @@ const getAllReposWithInfo = () =>
   getOrgRepos().then((repos) =>
     repos
       // Filter blacklisted repo
-      .filter((repo) => !blacklist.includes(repo.name))
+      .filter((repo) => !blacklist.repositories.includes(repo.name))
       // serve just enough repo data
       .map((repo) => ({
         name: repo.name,
