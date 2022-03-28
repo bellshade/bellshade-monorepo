@@ -3,12 +3,23 @@ name: Build and deploy to production
 on:
   push:
     branches: [main]
+    paths:
+    - 'packages/server/**'
+    - 'packages/shared/**'
+  pull_request:
+    types: [closed]
+    branches: [main]
+    paths:
+    - 'packages/server/**'
+    - 'packages/shared/**'
 
 jobs:
   deployment:
+    if: github.repository == 'bellshade/bellshade-monorepo'
+    name: Deploy to production
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
+      - name: Executing remote ssh commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -16,7 +27,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd ~/bellshade/bellshade-server
+            cd ~/bellshade/bellshade-monorepo
+            git checkout .
             git pull origin main
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
