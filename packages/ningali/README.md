@@ -1,5 +1,9 @@
 # `@bellshade/ningali`
 
+![npm version](https://img.shields.io/npm/v/@bellshade/ningali?style=for-the-badge)
+![npm download](https://img.shields.io/npm/dt/@bellshade/ningali?style=for-the-badge)
+<img alt="Libraries.io dependency status for latest release" src="https://img.shields.io/librariesio/release/npm/@bellshade/ningali?style=for-the-badge">
+
 [Ningali](https://id.wiktionary.org/wiki/ningali) berasal dari Bahasa Sunda halus yang berarti `melihat`, jadi package ini bertujuan agar orang yang menggunakannya bisa melihat folder pembelajaran yang sudah dibuat sebelumnya kedalam tampilan web. Dalam kata lain package ini adalah penyaji materi dari filesystem ke tampilan web.
 
 ## Fitur-Fitur

@@ -25,7 +25,7 @@ const init = (fastify) => {
 
   const commonErrorHandler = (err) => {
     const time = new Date();
-
+    console.log(err);
     const error =
       typeof err === "object" && err !== null
         ? Object.values(err.response.data).join(" ")

@@ -1,6 +1,6 @@
 const { searchPRs, getUser } = require("../fetcher");
 const { bellshadeContributorQuery } = require("../config").query;
-const blacklist = require("../config/blacklistedRepos");
+const blacklist = require("../config/blacklisted");
 
 const getUserOrgValidContribution = (username) =>
   // Search All merged PR entire bellshade github org
@@ -17,7 +17,7 @@ const getUserOrgValidContribution = (username) =>
         merged_at: pr.closed_at,
         repo: splitted[splitted.length - 1],
       };
-    }).filter(({ repo }) => !blacklist.includes(repo));
+    }).filter(({ repo }) => !blacklist.repositories.includes(repo));
 
     return getUser(username).then(({ login, avatar_url, html_url, name }) => ({
       user: { login, name, html_url, avatar_url },

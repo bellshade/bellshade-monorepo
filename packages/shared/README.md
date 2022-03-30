@@ -1,5 +1,9 @@
 # `@bellshade/shared`
 
+![npm version](https://img.shields.io/npm/v/@bellshade/shared?style=for-the-badge)
+![npm download](https://img.shields.io/npm/dt/@bellshade/shared?style=for-the-badge)
+<img alt="Libraries.io dependency status for latest release" src="https://img.shields.io/librariesio/release/npm/@bellshade/shared?style=for-the-badge">
+
 Package untuk keperluan konfigurasi yang sifatnya perlu di bagikan ke berbagai repositori. Isinya akan ada konfigurasi cache dan key yang bisa kamu gunakan ketika membuat aplikasi yang bergantung dengan api ini.
 
 ## Penggunaan
