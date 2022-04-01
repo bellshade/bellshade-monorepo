@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/bellshade/bellshade-monorepo/compare/@bellshade/ningali@1.2.0...@bellshade/ningali@1.2.1) (2022-04-01)
+
+**Note:** Version bump only for package @bellshade/ningali
+
 # [1.2.0](https://github.com/bellshade/bellshade-monorepo/compare/@bellshade/ningali@1.1.0...@bellshade/ningali@1.2.0) (2022-03-20)
 
 ### Features

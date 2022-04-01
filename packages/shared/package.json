@@ -1,6 +1,6 @@
 {
   "name": "@bellshade/shared",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Package untuk keperluan konfigurasi yang sifatnya perlu di bagikan ke berbagai repositori",
   "author": "bellshade",
   "homepage": "https://github.com/bellshade/bellshade-monorepo/tree/main/packages/shared",

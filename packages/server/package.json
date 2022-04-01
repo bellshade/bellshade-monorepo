@@ -1,6 +1,6 @@
 {
   "name": "@bellshade/server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "Kode untuk server dari web organisasi bellshade",
   "author": "bellshade",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/bellshade/bellshade-monorepo.git"
   },
   "dependencies": {
-    "@bellshade/shared": "^1.1.0",
+    "@bellshade/shared": "^1.1.1",
     "@octokit/rest": "^18.10.0",
     "canvas": "^2.8.0",
     "discord-webhook-node": "^1.1.8",
