@@ -4,14 +4,18 @@ on:
   push:
     branches: [main]
     paths:
-    - 'packages/server/**'
-    - 'packages/shared/**'
+      - "packages/server/**"
+      - "packages/shared/**"
+      - "!packages/server/README.md"
+      - "!packages/shared/README.md"
   pull_request:
     types: [closed]
     branches: [main]
     paths:
-    - 'packages/server/**'
-    - 'packages/shared/**'
+      - "packages/server/**"
+      - "packages/shared/**"
+      - "!packages/server/README.md"
+      - "!packages/shared/README.md"
 
 jobs:
   deployment:
