@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/bellshade/bellshade-monorepo/compare/@bellshade/ningali@1.2.1...@bellshade/ningali@1.2.2) (2022-04-17)
+
+### Bug Fixes
+
+- **ningali:** memperbaiki bug tampilan pada code highlight di readme ([0024c5c](https://github.com/bellshade/bellshade-monorepo/commit/0024c5cc1b7e7082e6e6a99efb55c5ad8c2dd781))
+
 ## [1.2.1](https://github.com/bellshade/bellshade-monorepo/compare/@bellshade/ningali@1.2.0...@bellshade/ningali@1.2.1) (2022-04-01)
 
 **Note:** Version bump only for package @bellshade/ningali
