@@ -23,7 +23,7 @@
     "fastify-schedule": "^1.0.0",
     "fastify-swagger": "^4.12.4",
     "github-username-regex": "^1.0.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "node-cache": "^5.1.2",
     "toad-scheduler": "^1.5.0"
   },
