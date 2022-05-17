@@ -1,0 +1,12 @@
+{
+  "timezone": "Indonesia/Jakarta"
+  "schedule": "before 5am every weekday"
+  "lockFileMaintenance": {
+    "enable": true,
+    "schedule": "after 10pm on sunday"
+  },
+  "packageRules": [{
+    "packageNames": ["fastify"],
+    "schedule": "before 5am every wednesday"
+  }]
+}
