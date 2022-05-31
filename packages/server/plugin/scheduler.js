@@ -1,5 +1,5 @@
 const fp = require("fastify-plugin");
-const { fastifySchedulePlugin } = require("fastify-schedule");
+const { fastifySchedulePlugin } = require("@fastify/schedule");
 
 const { _jobs } = require("../misc");
 
