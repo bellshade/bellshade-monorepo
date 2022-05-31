@@ -2,7 +2,7 @@
 const fastify = require("fastify");
 const path = require("path");
 
-const autoLoad = require("fastify-autoload");
+const autoLoad = require("@fastify/autoload");
 const constant = require("./config/constant");
 
 const app = fastify({ debug: false });
