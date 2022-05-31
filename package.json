@@ -15,15 +15,15 @@
   },
   "author": "bellshade",
   "devDependencies": {
-    "@commitlint/cli": "^16.0.0",
-    "@commitlint/config-conventional": "^16.0.0",
-    "@commitlint/config-lerna-scopes": "^16.2.2",
-    "eslint": "^8.2.0",
+    "@commitlint/cli": "^17.0.1",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@commitlint/config-lerna-scopes": "^17.0.0",
+    "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jest": "^25.2.4",
-    "husky": "^7.0.4",
+    "eslint-plugin-jest": "^26.4.6",
+    "husky": "^8.0.1",
     "lerna": "^4.0.0",
-    "lint-staged": "^12.1.4",
+    "lint-staged": "^12.4.3",
     "prettier": "^2.4.1"
   },
   "lint-staged": {
