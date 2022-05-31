@@ -7,7 +7,7 @@ const fastify = require("fastify")({
 const { leaderboard, main, badge, learning } = require("./router");
 
 // plugin
-fastify.register(require("fastify-autoload"), {
+fastify.register(require("@fastify/autoload"), {
   dir: path.join(__dirname, "plugin"),
 });
 

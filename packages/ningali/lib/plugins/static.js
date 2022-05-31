@@ -1,5 +1,5 @@
 const fp = require("fastify-plugin");
-const fastifyStatic = require("fastify-static");
+const fastifyStatic = require("@fastify/static");
 
 module.exports = fp((fastify, opts, done) => {
   fastify.requiredStatic.forEach((data, idx) => {
