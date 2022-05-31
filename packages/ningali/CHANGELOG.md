@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/bellshade/bellshade-monorepo/compare/@bellshade/ningali@1.2.3...@bellshade/ningali@1.3.0) (2022-05-31)
+
+### Bug Fixes
+
+- **ningali:** pengubahan nama package yang sebelumnya deprecated ([42335e4](https://github.com/bellshade/bellshade-monorepo/commit/42335e40737420fd08b355d6c14cd7c25f8eabab))
+
+### Features
+
+- **ningali:** mengganti package yang deprecated ([a81436a](https://github.com/bellshade/bellshade-monorepo/commit/a81436a81e0990116bfb50d08cf5c8a35d20a668))
+
 ## [1.2.3](https://github.com/bellshade/bellshade-monorepo/compare/@bellshade/ningali@1.2.2...@bellshade/ningali@1.2.3) (2022-05-11)
 
 **Note:** Version bump only for package @bellshade/ningali
